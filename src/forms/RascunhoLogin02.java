@@ -68,8 +68,9 @@ public class RascunhoLogin02 extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -83,13 +84,13 @@ public class RascunhoLogin02 extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnEntrar);
-        btnEntrar.setBounds(480, 300, 141, 57);
+        btnEntrar.setBounds(480, 300, 150, 58);
 
         btnSair.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/sairL.png"))); // NOI18N
         btnSair.setText("Sair");
         getContentPane().add(btnSair);
-        btnSair.setBounds(650, 300, 140, 57);
+        btnSair.setBounds(650, 300, 140, 58);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/marcaC.png"))); // NOI18N
         getContentPane().add(jLabel5);
@@ -102,17 +103,17 @@ public class RascunhoLogin02 extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtSenha);
-        txtSenha.setBounds(540, 220, 250, 35);
+        txtSenha.setBounds(540, 220, 250, 33);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel4.setText("Senha:");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(440, 220, 82, 29);
+        jLabel4.setBounds(440, 220, 93, 29);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel3.setText("Usuário:");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(420, 160, 100, 29);
+        jLabel3.setBounds(420, 160, 112, 29);
 
         txtUsuario.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         txtUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -121,16 +122,20 @@ public class RascunhoLogin02 extends javax.swing.JFrame {
             }
         });
         getContentPane().add(txtUsuario);
-        txtUsuario.setBounds(540, 160, 250, 35);
+        txtUsuario.setBounds(540, 160, 250, 33);
+
+        jLabel2.setText("Ajuda");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(620, 420, 51, 15);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fund.jpg"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, -3, 1000, 490);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel6.setText("Efetuar Login");
         getContentPane().add(jLabel6);
         jLabel6.setBounds(510, 60, 260, 50);
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fund.jpg"))); // NOI18N
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, -3, 1000, 490);
 
         setSize(new java.awt.Dimension(936, 516));
         setLocationRelativeTo(null);
@@ -190,6 +195,7 @@ public class RascunhoLogin02 extends javax.swing.JFrame {
     private javax.swing.JButton btnEntrar;
     private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
