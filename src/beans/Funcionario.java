@@ -17,6 +17,17 @@ public class Funcionario {
     private String senha;
     private String cpf;
     private String rg;
+    private Endereco endereco;
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    
 
     public String getRg() {
         return rg;
