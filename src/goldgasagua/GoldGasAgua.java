@@ -5,7 +5,7 @@
  */
 package goldgasagua;
 
-import forms.RascunhoLogin02;
+import forms.FormLogin;
 
 /**
  *
@@ -18,7 +18,7 @@ public class GoldGasAgua {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        RascunhoLogin02 rl = new RascunhoLogin02();
+        FormLogin rl = new FormLogin();
         rl.setVisible(true);
     }
     

@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,9 +33,10 @@ public class FuncionarioDAO {
     }
     public boolean inserirFuncionario(Funcionario f)
     {
-        String inserir = "INSERT INTO funcionario(idfuncionario, login, senha, cpf, cnh, nome, nascimento, telefone, email) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String inserir = "INSERT INTO funcionario(idfuncionario, login, senha, cpf, cnh, nome, nascimento, telefone, email, idendereco) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try
         {
+            JOptionPane.showMessageDialog(null, "passow");
             PreparedStatement stmte = this.con.prepareStatement(inserir);
             stmte.setInt(1, f.getIdfuncionario());
             stmte.setString(2, f.getLogin());
@@ -45,6 +47,7 @@ public class FuncionarioDAO {
             stmte.setDate(7, (Date) f.getNascimento());
             stmte.setString(8, f.getTelefone());
             stmte.setString(9, f.getEmail());
+            stmte.setInt(10, f.getEndereco().getIdEndereco());
             stmte.execute();
             return true;
         }
@@ -68,6 +71,7 @@ public class FuncionarioDAO {
             while(rs.next())
             {
                 Funcionario f = new Funcionario();
+                //pegar todos os campos
                 f.setIdfuncionario(rs.getInt("idfuncionario"));
                 f.setNome(rs.getString("nome"));
                 listaFuncionarios.add(f);
