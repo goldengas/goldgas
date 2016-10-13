@@ -16,7 +16,15 @@ public class Cliente {
     private String tipocliente;
     private String email;
     private Endereco endereco;
-    private int status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    private String status;
 
     public int getIdcliente() {
         return idcliente;
@@ -66,12 +74,6 @@ public class Cliente {
         this.endereco = endereco;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
+    
     
 }

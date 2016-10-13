@@ -42,7 +42,7 @@ public class ClienteDAO {
             stmte.setString(4, c.getTipocliente());
             stmte.setString(5, c.getEmail());
             stmte.setInt(6, c.getEndereco().getIdEndereco());
-            stmte.setInt(7, c.getStatus());
+            stmte.setString(7, c.getStatus());
             stmte.execute();
             return true;
         }
@@ -71,7 +71,7 @@ public class ClienteDAO {
                 c.setTipocliente(rs.getString("tipocliente"));
                 c.setEmail(rs.getString("email"));
                 c.getEndereco().setIdEndereco(rs.getInt("idendereco"));
-                c.setStatus(rs.getInt("status"));
+                c.setStatus(rs.getString("status"));
                 listaClientes.add(c);
             }
             return listaClientes;
@@ -92,7 +92,7 @@ public class ClienteDAO {
             stmte.setString(2, c.getTelefone());
             stmte.setString(3, c.getTipocliente());
             stmte.setString(4, c.getEmail());
-            stmte.setInt(5, c.getStatus());
+            stmte.setString(5, c.getStatus());
             stmte.execute();
             return true;
         }

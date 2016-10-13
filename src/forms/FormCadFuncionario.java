@@ -40,11 +40,7 @@ public class FormCadFuncionario extends javax.swing.JFrame {
         txtRg.setText("");
         txtCpf.setText("");
         txtTel.setText("");
-        txtEmail.setText("");
-        
-        
-        
-        
+        txtEmail.setText("");   
     }
 
     /**
@@ -612,6 +608,8 @@ public class FormCadFuncionario extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormCadFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
