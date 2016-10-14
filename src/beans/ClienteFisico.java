@@ -10,8 +10,17 @@ package beans;
  * @author IFSP
  */
 public class ClienteFisico {
+    private Cliente cliente;
     private int idcliente;
     private String cpf;
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
     public int getIdcliente() {
         return idcliente;

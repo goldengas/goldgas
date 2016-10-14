@@ -9,7 +9,18 @@ package beans;
  *
  * @author IFSP
  */
-public class ClienteJuridico {
+public class ClienteJuridico {    
+    private Cliente cliente;
+    private int idcliente;
+    private String cnpj;
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
     public int getIdcliente() {
         return idcliente;
@@ -27,6 +38,5 @@ public class ClienteJuridico {
         this.cnpj = cnpj;
     }
     
-    private int idcliente;
-    private String cnpj;
+    
 }

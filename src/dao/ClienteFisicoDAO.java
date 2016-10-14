@@ -33,6 +33,13 @@ public class ClienteFisicoDAO {
     }
     public boolean inserirClienteFisico(ClienteFisico c)
     {
+        ClienteDAO clienteDAO = new ClienteDAO();
+        if(clienteDAO.inserirCliente(c.getCliente()) == false){
+            this.erro = "Erro ao inserir cliente: " + clienteDAO.getErro();
+            return false;
+        }
+        c.setIdcliente(clienteDAO.getLastId());
+        
         String inserir = "INSERT INTO clientefisico(idcliente, cpf) VALUES(?, ?)";
         try
         {

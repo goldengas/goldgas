@@ -36,7 +36,7 @@ public class FuncionarioDAO {
         String inserir = "INSERT INTO funcionario(idfuncionario, login, senha, cpf, cnh, nome, nascimento, telefone, email, idendereco) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try
         {
-            JOptionPane.showMessageDialog(null, "passow");
+            
             PreparedStatement stmte = this.con.prepareStatement(inserir);
             stmte.setInt(1, f.getIdfuncionario());
             stmte.setString(2, f.getLogin());

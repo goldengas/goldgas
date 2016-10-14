@@ -5,11 +5,8 @@
  */
 package forms;
 
-import beans.Cliente;
 import beans.Produto;
-import dao.ClienteDAO;
-import dao.ClienteFisicoDAO;
-import dao.ClienteJuridicoDAO;
+import dao.ProdutoDAO;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,34 +14,31 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author IFSP
  */
-public class FormBuscarCliente extends javax.swing.JDialog {
-
-    private ClienteDAO clienteDAO;
-    private ClienteFisicoDAO clienteFisicoDAO;
-    private ClienteJuridicoDAO clienteJuridicoDAO;
-            
-             private void preencheTabela(List<Cliente> listaClientes)
+public class FormListarProdutos extends javax.swing.JDialog {
+    private ProdutoDAO produtoDAO;
+    
+    private void preencheTabela(List<Produto> listaProdutos)
     {
-        DefaultTableModel tabelaCarros  = (DefaultTableModel) tblClientes.getModel();
-        tabelaCarros.setNumRows(0); //Limpa a tabela toda vez que for listar
+        DefaultTableModel tabelaProdutos  = (DefaultTableModel) tblProdutos.getModel();
+        tabelaProdutos.setNumRows(0); //Limpa a tabela toda vez que for listar
         
-        for(Cliente c : listaClientes){
+        for(Produto p : listaProdutos){
             Object[] obj = new Object[]{
-                c.getNome(),
-                c.getTelefone(),
-                //pegar cpf ou cnpj
-                c.getStatus()
+                p.getNome(),
+                p.getQuant_min(),
+                p.getPrecounitario(),
+                p.getQuantestoque()
             };
-            tabelaCarros.addRow(obj);
+            tabelaProdutos.addRow(obj);
         }
     }
     /**
-     * Creates new form FormBuscarCliente
+     * Creates new form FormBuscarProduto
      */
-    public FormBuscarCliente(java.awt.Frame parent, boolean modal) {
+    public FormListarProdutos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.clienteDAO = new ClienteDAO();
+        this.produtoDAO = new ProdutoDAO();
     }
 
     /**
@@ -63,16 +57,21 @@ public class FormBuscarCliente extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblClientes = new javax.swing.JTable();
+        tblProdutos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Buscar Cliente");
+        jLabel1.setText("Buscar Produto");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Área de Pesquisa"));
 
         jLabel2.setText("Nome:");
 
+        txtFiltro.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtFiltroCaretUpdate(evt);
+            }
+        });
         txtFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFiltroActionPerformed(evt);
@@ -112,15 +111,15 @@ public class FormBuscarCliente extends javax.swing.JDialog {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Resultado"));
 
-        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
+        tblProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome", "Telefone", "CPF/CNPJ", "Status"
+                "Nome", "Quuant.Min", "Preço Unit.", "Quant. Estoque"
             }
         ));
-        jScrollPane1.setViewportView(tblClientes);
+        jScrollPane1.setViewportView(tblProdutos);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -172,7 +171,7 @@ public class FormBuscarCliente extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        List<Cliente> lista = this.clienteDAO.getTodosClientes();
+        List<Produto> lista = this.produtoDAO.getTodosProdutos();
         preencheTabela(lista);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -180,6 +179,14 @@ public class FormBuscarCliente extends javax.swing.JDialog {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_txtFiltroActionPerformed
+
+    private void txtFiltroCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtFiltroCaretUpdate
+        // TODO add your handling code here:
+        String valor = txtFiltro.getText();
+        
+        List<Produto> lista = this.produtoDAO.getProdutoByFiltro(valor);
+        preencheTabela(lista);
+    }//GEN-LAST:event_txtFiltroCaretUpdate
 
     /**
      * @param args the command line arguments
@@ -198,13 +205,13 @@ public class FormBuscarCliente extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormBuscarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormListarProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormBuscarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormListarProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormBuscarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormListarProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormBuscarCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormListarProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -212,7 +219,7 @@ public class FormBuscarCliente extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormBuscarCliente dialog = new FormBuscarCliente(new javax.swing.JFrame(), true);
+                FormListarProdutos dialog = new FormListarProdutos(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -231,7 +238,7 @@ public class FormBuscarCliente extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblClientes;
+    private javax.swing.JTable tblProdutos;
     private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
 }

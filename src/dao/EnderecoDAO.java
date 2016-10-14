@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import java.util.List;
 public class EnderecoDAO {
     private Connection con;
     private String erro;
+    private int lastId = -1;
     
     public EnderecoDAO()
     {
@@ -31,20 +33,28 @@ public class EnderecoDAO {
     {
         return this.erro;
     }
+
+    public int getLastId() {
+        return lastId;
+    }
+    
     public boolean inserirEndereco(Endereco e)
     {
-        String inserir = "INSERT INTO funcionario(idendereco, rua, bairro, referencia, complemento, cidade, estado) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String inserir = "INSERT INTO endereco(rua, bairro, referencia, complemento, cidade, estado) VALUES(?, ?, ?, ?, ?, ?)";
         try
         {
-            PreparedStatement stmte = this.con.prepareStatement(inserir);
-            stmte.setInt(1, e.getIdEndereco());
-            stmte.setString(2, e.getRua());
-            stmte.setString(3, e.getBairro());
-            stmte.setString(4, e.getReferencia());
-            stmte.setString(5, e.getComplemento());
-            stmte.setString(6, e.getCidade());          
-            stmte.setString(8, e.getEstado());
-            stmte.execute();
+            PreparedStatement stmte = this.con.prepareStatement(inserir, Statement.RETURN_GENERATED_KEYS);
+            stmte.setString(1, e.getRua());
+            stmte.setString(2, e.getBairro());
+            stmte.setString(3, e.getReferencia());
+            stmte.setString(4, e.getComplemento());
+            stmte.setString(5, e.getCidade());          
+            stmte.setString(6, e.getEstado());
+            stmte.executeUpdate();
+            ResultSet rs = stmte.getGeneratedKeys();
+            if(rs.next()){
+                this.lastId = rs.getInt(1);
+            }
             return true;
         }
         catch(Exception ex)

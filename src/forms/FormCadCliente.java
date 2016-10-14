@@ -80,10 +80,10 @@ public class FormCadCliente extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         txtTelefone = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         cmbStatus = new javax.swing.JComboBox<>();
         cmbTipo = new javax.swing.JComboBox<>();
+        lblCodigoCliente = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel38 = new javax.swing.JLabel();
         txtRua = new javax.swing.JTextField();
@@ -109,6 +109,11 @@ public class FormCadCliente extends javax.swing.JFrame {
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/novo.png"))); // NOI18N
         jButton2.setText("Novo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
         jButton3.setText("Salvar");
@@ -166,6 +171,7 @@ public class FormCadCliente extends javax.swing.JFrame {
         jLabel4.setText("Nome:");
 
         txtNome.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        txtNome.setText("Alexandrer");
         txtNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNomeActionPerformed(evt);
@@ -176,6 +182,12 @@ public class FormCadCliente extends javax.swing.JFrame {
         jLabel7.setText("Tipo do Cliente:");
 
         txtCpf.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        txtCpf.setText("12345678900");
+        txtCpf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCpfActionPerformed(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel15.setText("Telefone:");
@@ -184,6 +196,7 @@ public class FormCadCliente extends javax.swing.JFrame {
         jLabel16.setText("E-mail:");
 
         txtTelefone.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        txtTelefone.setText("34910000");
         txtTelefone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTelefoneActionPerformed(evt);
@@ -191,8 +204,7 @@ public class FormCadCliente extends javax.swing.JFrame {
         });
 
         txtEmail.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "------", "CPF", "CNPJ" }));
+        txtEmail.setText("ale@ifsp.com");
 
         jLabel2.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel2.setText("Status:");
@@ -200,7 +212,15 @@ public class FormCadCliente extends javax.swing.JFrame {
         cmbStatus.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ativo", "Inativado" }));
 
-        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-----", "Físico", "Jurídico" }));
+        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Físico", "Jurídico" }));
+        cmbTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTipoActionPerformed(evt);
+            }
+        });
+
+        lblCodigoCliente.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        lblCodigoCliente.setText("CPF:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -208,16 +228,18 @@ public class FormCadCliente extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
                             .addComponent(jLabel7)
                             .addComponent(jLabel16)
                             .addComponent(jLabel15)
                             .addComponent(jLabel4))
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblCodigoCliente)
+                        .addGap(1, 1, 1)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtNome)
@@ -242,7 +264,7 @@ public class FormCadCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblCodigoCliente))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -264,16 +286,19 @@ public class FormCadCliente extends javax.swing.JFrame {
         jLabel38.setText("Endereço:");
 
         txtRua.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        txtRua.setText("Av. Brasil");
 
         jLabel39.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel39.setText("Nº:");
 
         txtNumero.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        txtNumero.setText("123");
 
         jLabel40.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel40.setText("Bairro:");
 
         txtBairro.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        txtBairro.setText("Centro");
         txtBairro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBairrojTextField14ActionPerformed(evt);
@@ -294,6 +319,7 @@ public class FormCadCliente extends javax.swing.JFrame {
         jLabel43.setText("Estado:");
 
         txtCidade.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        txtCidade.setText("Capivari");
         txtCidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCidadejTextField11ActionPerformed(evt);
@@ -458,28 +484,7 @@ public class FormCadCliente extends javax.swing.JFrame {
         String tipo = cmbTipo.getSelectedItem().toString().toLowerCase();
         String status = cmbStatus.getSelectedItem().toString().toLowerCase();
         
-        Cliente c = new Cliente();
-        c.setNome(nome);
-        c.setTelefone(tel);
-        c.setEmail(email);
-        c.setStatus(status);
-        c.setTipocliente(tipo);
-        
-        if(tipo.equals("físico"))
-        {
-            ClienteFisico cf = new ClienteFisico();
-            cf.setCpf(cpf);
-            boolean inserirCf = this.clienteFisicoDAO.inserirClienteFisico(cf);
-        }
-        else
-        {
-            ClienteJuridico cj = new ClienteJuridico();
-            cj.setCnpj(cpf);
-            boolean inserirCj = this.clienteJuridicoDAO.inserirClienteJuridico(cj);
-        }
-        
-        Endereco e = new Endereco();
-        
+        Endereco e = new Endereco();        
         e.setRua(rua);
         e.setComplemento(complemento);
         e.setNum(num);
@@ -488,18 +493,61 @@ public class FormCadCliente extends javax.swing.JFrame {
         e.setCidade(cidade);
         e.setEstado(estado);
         
-        boolean valida1 = this.enderecoDAO.inserirEndereco(e);
-        boolean valida = this.clienteDAO.inserirCliente(c);
+        Cliente c = new Cliente();
+        c.setNome(nome);
+        c.setTelefone(tel);
+        c.setEmail(email);
+        c.setStatus(status);
+        c.setTipocliente(tipo);
+        c.setEndereco(e);
         
-        if(valida == true && valida1 == true)
+        boolean inserirCliente = false;
+        String erro = "";
+        
+        if(tipo.equals("físico"))
+        {
+            ClienteFisico cf = new ClienteFisico();
+            cf.setCliente(c);
+            cf.setCpf(cpf);
+            inserirCliente = this.clienteFisicoDAO.inserirClienteFisico(cf);
+            erro = this.clienteFisicoDAO.getErro();
+        }
+        else
+        {
+            ClienteJuridico cj = new ClienteJuridico();
+            cj.setCnpj(cpf);
+            inserirCliente = this.clienteJuridicoDAO.inserirClienteJuridico(cj);
+            erro = this.clienteJuridicoDAO.getErro();
+        }
+        
+        if(inserirCliente == true)
         {
             JOptionPane.showMessageDialog(this, "Cliente inserido com sucesso");
         }
         else
         {
-            JOptionPane.showMessageDialog(this, clienteDAO.getErro());
+            JOptionPane.showMessageDialog(this, erro);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        limparCampos();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCpfActionPerformed
+
+    private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
+        // TODO add your handling code here:
+        if(cmbTipo.getSelectedItem().toString().equals("Físico")){
+            lblCodigoCliente.setText("CPF:");
+        }
+        else{
+            lblCodigoCliente.setText("CNPJ:");
+        }
+    }//GEN-LAST:event_cmbTipoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -548,7 +596,6 @@ public class FormCadCliente extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -567,6 +614,7 @@ public class FormCadCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblCodigoCliente;
     private javax.swing.JTextField txtBairro;
     private javax.swing.JTextField txtCidade;
     private javax.swing.JTextField txtComplemento;

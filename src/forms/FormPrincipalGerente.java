@@ -44,11 +44,11 @@ public class FormPrincipalGerente extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem15 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
@@ -137,6 +137,10 @@ public class FormPrincipalGerente extends javax.swing.JFrame {
         jMenuItem12.setText("Fluxo de Caixa");
         jMenu2.add(jMenuItem12);
 
+        jMenuItem15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mecanico_1.png"))); // NOI18N
+        jMenuItem15.setText("Manutenção da Frota");
+        jMenu2.add(jMenuItem15);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mov.png"))); // NOI18N
@@ -153,10 +157,6 @@ public class FormPrincipalGerente extends javax.swing.JFrame {
         jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/estoque.png"))); // NOI18N
         jMenuItem8.setText("Movimento no Estoque");
         jMenu3.add(jMenuItem8);
-
-        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/mecanico.png"))); // NOI18N
-        jMenuItem9.setText("Manutenção da Frota");
-        jMenu3.add(jMenuItem9);
 
         jMenuBar1.add(jMenu3);
 
@@ -323,6 +323,7 @@ public class FormPrincipalGerente extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
@@ -331,7 +332,6 @@ public class FormPrincipalGerente extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JLabel lblUsuario1;

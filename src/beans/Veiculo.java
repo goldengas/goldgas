@@ -15,7 +15,18 @@ public class Veiculo {
     private String marca;
     private String tipocombustivel;
     private String placa;
+    private String status;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Veiculo() {
+    }
     public int getIdVeiculo() {
         return idVeiculo;
     }
