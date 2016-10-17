@@ -45,7 +45,6 @@ public class FornecedorDAO {
         String inserir = "INSERT INTO fornecedor(nome, cnpj, email, telefone, idendereco) VALUES( ?, ?, ?, ?, ?)";
         try
         {
-            
             PreparedStatement stmte = this.con.prepareStatement(inserir, Statement.RETURN_GENERATED_KEYS);
             stmte.setString(1, f.getNome());
             stmte.setString(2, f.getCnpj());
@@ -75,7 +74,7 @@ public class FornecedorDAO {
             PreparedStatement stmte = this.con.prepareStatement(consultar);
             stmte.setString(1, "%"+nome+"%");
             ResultSet rs = stmte.executeQuery();
-            List<Fornecedor> listaClientes = new ArrayList();
+            List<Fornecedor> listaFornecedores = new ArrayList();
             
             while(rs.next())
             {
@@ -86,19 +85,17 @@ public class FornecedorDAO {
                 f.setEmail(rs.getString("email"));
                 f.setTelefone(rs.getString("telefone"));
                 f.getEndereco().setIdEndereco(rs.getInt("idendereco"));
-                listaClientes.add(f);
+                listaFornecedores.add(f);
             }
-            return listaClientes;
+            return listaFornecedores;
         }
         catch(Exception e)
         {
-            this.erro = "Erro ao inserir " + e.getMessage();
+            this.erro = "Erro ao obter Fornecedor" + e.getMessage();
             return null;
         }
     }
-    
-    
-        public boolean atualizaCliente(Fornecedor f)
+        public boolean atualizaFornecedor(Fornecedor f)
     {
         String update = "UPDATE fornecedor SET nome=?, cnpj=?, email=?, telefone=? WHERE idcliente = ?";
         try

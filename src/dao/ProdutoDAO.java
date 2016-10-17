@@ -115,8 +115,6 @@ public class ProdutoDAO {
             
             while(rs.next()){
                 Produto p = new Produto();
-                
-                
                 p.setNome(rs.getString("nome"));
                 p.setQuant_min(rs.getInt("quant_min"));
                 p.setPrecounitario(rs.getDouble("precounitario"));
@@ -144,8 +142,7 @@ public class ProdutoDAO {
             
             while(rs.next()){
                 Produto p = new Produto();
-                
-                
+
                 p.setNome(rs.getString("nome"));
                 p.setQuant_min(rs.getInt("quant_min"));
                 p.setPrecounitario(rs.getDouble("precounitario"));

@@ -39,8 +39,10 @@ public class FormCadFuncionario extends javax.swing.JFrame {
         txtNome.setText("");
         txtRg.setText("");
         txtCpf.setText("");
-        txtTel.setText("");
-        txtEmail.setText("");   
+        txtCnh.setText("");
+        txtEmail.setText("");  
+        txtnasc.setText("");
+        cmbCargo.setSelectedItem(0);
     }
 
     /**
@@ -76,7 +78,7 @@ public class FormCadFuncionario extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        txtTel = new javax.swing.JTextField();
+        txtCnh = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -90,6 +92,8 @@ public class FormCadFuncionario extends javax.swing.JFrame {
         cmbCargo = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         txtnasc = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtTel1 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
@@ -115,6 +119,11 @@ public class FormCadFuncionario extends javax.swing.JFrame {
 
         txtNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/novo.png"))); // NOI18N
         txtNovo.setText("Novo");
+        txtNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNovoActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
         btnSalvar.setText("Salvar");
@@ -187,10 +196,10 @@ public class FormCadFuncionario extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel16.setText("E-mail:");
 
-        txtTel.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        txtTel.addActionListener(new java.awt.event.ActionListener() {
+        txtCnh.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        txtCnh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTelActionPerformed(evt);
+                txtCnhActionPerformed(evt);
             }
         });
 
@@ -258,6 +267,16 @@ public class FormCadFuncionario extends javax.swing.JFrame {
 
         txtnasc.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
 
+        jLabel10.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jLabel10.setText("CNH:");
+
+        txtTel1.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        txtTel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTel1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -283,13 +302,18 @@ public class FormCadFuncionario extends javax.swing.JFrame {
                             .addComponent(txtEmail)
                             .addComponent(txtRg)
                             .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtnasc)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cmbCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtTel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCnh)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -321,8 +345,10 @@ public class FormCadFuncionario extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
+                    .addComponent(txtCnh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel10)
+                    .addComponent(txtTel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -498,6 +524,7 @@ public class FormCadFuncionario extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
+   
         
         String rua = txtRua.getText();
         String complemento = txtComp.getText();
@@ -514,32 +541,24 @@ public class FormCadFuncionario extends javax.swing.JFrame {
         String cargo = cmbCargo.getSelectedItem().toString().toLowerCase();
         String rg = txtRg.getText();
         String cpf = txtCpf.getText();
-        String tel = txtTel.getText();
+        String tel = txtTel1.getText();
         String email = txtEmail.getText();
-        Date nascimento = null;
-        try{
-            DateFormat formatter = new SimpleDateFormat("MM/dd/yy");
-             nascimento = (Date)formatter.parse(nasc);
-        }
-        catch(Exception e)
-        {
-            
-            JOptionPane.showMessageDialog(this,"Erro ao inserir " + e.getMessage());
-           
-        }
+        String cnh = txtCnh.getText();
+        
+        
        
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            java.sql.Date data = null;
+        try {
+             data = new java.sql.Date(format.parse(nasc).getTime());
+        } 
         
-        Funcionario f = new Funcionario();
-        f.setLogin(login);
-        f.setSenha(senha);
-        f.setNome(nome);
-        f.setNascimento(nascimento);
-        f.setCargo(cargo);
-        f.setRg(rg);
-        f.setCpf(cpf);
-        f.setTelefone(tel);
-        f.setEmail(email);
+        catch (ParseException ex) {
+            Logger.getLogger(FormCadFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
+        
+       
         Endereco e = new Endereco();
         
         e.setRua(rua);
@@ -550,10 +569,33 @@ public class FormCadFuncionario extends javax.swing.JFrame {
         e.setCidade(cidade);
         e.setEstado(estado);
         
+        Funcionario f = new Funcionario();
+        f.setLogin(login);
+        f.setSenha(senha);
+        f.setNome(nome);
+        f.setNascimento(data);
+        f.setCargo(cargo);
+        f.setRg(rg);
+        f.setCpf(cpf);
+        f.setTelefone(tel);
+        f.setEmail(email);
+        f.setCnh(cnh);
+        f.setEndereco(e);
+       
+        boolean inserirFuncionario = false;
+        String erro = "";
+        inserirFuncionario = this.funcionarioDAO.inserirFuncionario(f);
+
         
-        boolean valida1 = this.EnderecoDAO.inserirEndereco(e);
-        boolean valida = this.funcionarioDAO.inserirFuncionario(f);
-        //JOptionPane.showMessageDialog(this, "Funcionário inserido com sucesso");
+        if(inserirFuncionario == true)
+        {
+            JOptionPane.showMessageDialog(this, "Funcionario inserido com sucesso");
+        }
+        else
+        {
+            erro = this.funcionarioDAO.getErro();
+            JOptionPane.showMessageDialog(this, erro);
+        }
         
         
         
@@ -575,13 +617,22 @@ public class FormCadFuncionario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSenhaActionPerformed
 
-    private void txtTelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelActionPerformed
+    private void txtCnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCnhActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTelActionPerformed
+    }//GEN-LAST:event_txtCnhActionPerformed
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeActionPerformed
+
+    private void txtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNovoActionPerformed
+        // TODO add your handling code here:
+        limparCampos();
+    }//GEN-LAST:event_txtNovoActionPerformed
+
+    private void txtTel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTel1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTel1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -626,6 +677,7 @@ public class FormCadFuncionario extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbCargo;
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
@@ -650,6 +702,7 @@ public class FormCadFuncionario extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField txtBairro;
     private javax.swing.JTextField txtCit;
+    private javax.swing.JTextField txtCnh;
     private javax.swing.JTextField txtComp;
     private javax.swing.JTextField txtCpf;
     private javax.swing.JTextField txtEmail;
@@ -664,7 +717,7 @@ public class FormCadFuncionario extends javax.swing.JFrame {
     private javax.swing.JTextField txtRua;
     private javax.swing.JButton txtSair;
     private javax.swing.JPasswordField txtSenha;
-    private javax.swing.JTextField txtTel;
+    private javax.swing.JTextField txtTel1;
     private javax.swing.JTextField txtnasc;
     // End of variables declaration//GEN-END:variables
 }

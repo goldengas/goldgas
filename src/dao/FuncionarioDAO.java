@@ -11,9 +11,10 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -22,6 +23,7 @@ import javax.swing.JOptionPane;
 public class FuncionarioDAO {
     private Connection con;
     private String erro;
+     private int lastId = -1;
     
     public FuncionarioDAO()
     {
@@ -31,24 +33,43 @@ public class FuncionarioDAO {
     {
         return this.erro;
     }
+    public int getLastId(){
+        return this.lastId;
+    }
+    
     public boolean inserirFuncionario(Funcionario f)
     {
-        String inserir = "INSERT INTO funcionario(idfuncionario, login, senha, cpf, cnh, nome, nascimento, telefone, email, idendereco) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        EnderecoDAO enderecoDAO = new EnderecoDAO(); 
+        if(enderecoDAO.inserirEndereco(f.getEndereco()) == false){
+            this.erro = "Erro ao salvar endereço: " + enderecoDAO.getErro();
+            return false;
+        }
+        
+        f.getEndereco().setIdEndereco(enderecoDAO.getLastId());
+        
+        
+        String inserir = "INSERT INTO funcionario(nome, rg, datanascimento, cnh, login, senha, cpf, cargo, idendereco, email, telefone) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try
         {
             
-            PreparedStatement stmte = this.con.prepareStatement(inserir);
-            stmte.setInt(1, f.getIdfuncionario());
-            stmte.setString(2, f.getLogin());
-            stmte.setString(3, f.getSenha());
-            stmte.setString(4, f.getCpf());
-            stmte.setString(5, f.getCnh());
-            stmte.setString(6, f.getNome());
-            stmte.setDate(7, (Date) f.getNascimento());
-            stmte.setString(8, f.getTelefone());
-            stmte.setString(9, f.getEmail());
-            stmte.setInt(10, f.getEndereco().getIdEndereco());
-            stmte.execute();
+            PreparedStatement stmte = this.con.prepareStatement(inserir, Statement.RETURN_GENERATED_KEYS);
+
+            stmte.setString(1, f.getNome());
+            stmte.setString(2, f.getRg());
+            stmte.setDate(3, (Date) f.getNascimento());
+            stmte.setString(4, f.getCnh());
+            stmte.setString(5, f.getLogin());
+            stmte.setString(6, f.getSenha());  
+            stmte.setString(7, f.getCpf());
+            stmte.setString(8, f.getCargo());
+            stmte.setInt(9, f.getEndereco().getIdEndereco());
+            stmte.setString(10, f.getEmail());
+            stmte.setString(11, f.getTelefone());
+            stmte.executeUpdate();
+            ResultSet rs = stmte.getGeneratedKeys();
+            if(rs.next()){
+                this.lastId = rs.getInt(1);
+            }
             return true;
         }
         catch(Exception e)

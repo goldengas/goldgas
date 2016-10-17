@@ -17,6 +17,12 @@ public class Funcionario {
     private String senha;
     private String cpf;
     private String rg;
+    private String cnh;
+    private String nome;
+    private Date nascimento = new Date();
+    private String telefone;
+    private String cargo;
+    private String email;
     private Endereco endereco;
 
     public Endereco getEndereco() {
@@ -26,8 +32,7 @@ public class Funcionario {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-
-    
+  
 
     public String getRg() {
         return rg;
@@ -36,12 +41,7 @@ public class Funcionario {
     public void setRg(String rg) {
         this.rg = rg;
     }
-    private String cnh;
-    private String nome;
-    private Date nascimento = new Date();
-    private String telefone;
-    private String cargo;
-    private String email;
+
 
     public int getIdfuncionario() {
         return idfuncionario;

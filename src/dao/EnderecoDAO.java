@@ -93,4 +93,27 @@ public class EnderecoDAO {
             return null;
         }
     }
+    
+    public boolean atualizaEndereco(Endereco end)
+    {
+        String update = "UPDATE fornecedor SET rua=?, num,=? bairro=?, referencia=?, complemento=?, cidade=?, estado=? WHERE idendereco = ?";
+        try
+        {
+        PreparedStatement stmte = con.prepareStatement(update);
+            stmte.setString(1, end.getRua());
+            stmte.setInt(2, end.getNum());
+            stmte.setString(3, end.getBairro());
+            stmte.setString(4, end.getReferencia());
+            stmte.setString(5, end.getComplemento());
+            stmte.setString(6, end.getCidade());
+            stmte.setString(4, end.getEstado());
+            stmte.execute();
+            return true;
+        }
+        catch(Exception e)
+        {
+            this.erro = "Erro ao atualizar: " +e.getMessage();
+            return false;
+        }
+    }
 }
