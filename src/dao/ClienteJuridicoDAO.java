@@ -5,7 +5,6 @@
  */
 package dao;
 
-import beans.ClienteFisico;
 import beans.ClienteJuridico;
 import goldgasagua.Conexao;
 import java.sql.Connection;
@@ -32,6 +31,13 @@ public class ClienteJuridicoDAO {
     }
     public boolean inserirClienteJuridico(ClienteJuridico c)
     {
+        ClienteDAO clienteDAO = new ClienteDAO();
+        if(clienteDAO.inserirCliente(c.getCliente()) == false){
+            this.erro = "Erro ao inserir cliente: " + clienteDAO.getErro();
+            return false;
+        }
+        c.setIdcliente(clienteDAO.getLastId());
+        
         String inserir = "INSERT INTO clientejuridico(idcliente, cnpj) VALUES(?, ?)";
         try
         {

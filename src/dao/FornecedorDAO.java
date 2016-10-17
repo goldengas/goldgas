@@ -11,6 +11,7 @@ import goldgasagua.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class FornecedorDAO {
     private Connection con;
     private String erro;
+    private int lastId = -1;
     
     public FornecedorDAO()
     {
@@ -28,21 +30,33 @@ public class FornecedorDAO {
     {
         return this.erro;
     }
-    
+    public int getLastId(){
+        return this.lastId;
+    }
     public boolean inserirFornecedor(Fornecedor f)
     {
-        String inserir = "INSERT INTO fornecedor(idfornecedor, nome, cnpj, email, telefone, idendereco) VALUES(?, ?, ?, ?, ?, ?)";
+        EnderecoDAO enderecoDAO = new EnderecoDAO(); 
+        if(enderecoDAO.inserirEndereco(f.getEndereco()) == false){
+            this.erro = "Erro ao salvar endereço: " + enderecoDAO.getErro();
+            return false;
+        }
+        
+        f.getEndereco().setIdEndereco(enderecoDAO.getLastId());
+        String inserir = "INSERT INTO fornecedor(nome, cnpj, email, telefone, idendereco) VALUES( ?, ?, ?, ?, ?)";
         try
         {
             
-            PreparedStatement stmte = this.con.prepareStatement(inserir);
-            stmte.setInt(1, f.getIdfornecedor());
-            stmte.setString(2, f.getNome());
-            stmte.setString(3, f.getCnpj());
-            stmte.setString(4, f.getEmail());
-            stmte.setString(5, f.getTelefone());
-            stmte.setInt(6, f.getEndereco().getIdEndereco());
-            stmte.execute();
+            PreparedStatement stmte = this.con.prepareStatement(inserir, Statement.RETURN_GENERATED_KEYS);
+            stmte.setString(1, f.getNome());
+            stmte.setString(2, f.getCnpj());
+            stmte.setString(3, f.getEmail());
+            stmte.setString(4, f.getTelefone());
+            stmte.setInt(5, f.getEndereco().getIdEndereco());
+            stmte.executeUpdate();
+            ResultSet rs = stmte.getGeneratedKeys();
+            if(rs.next()){
+                this.lastId = rs.getInt(1);
+            }
             return true;
         }
         catch(Exception e)

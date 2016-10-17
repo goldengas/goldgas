@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  *
  * @author IFSP
@@ -36,8 +37,7 @@ public class ClienteDAO {
     }
     public boolean inserirCliente(Cliente c)
     {
-        EnderecoDAO enderecoDAO = new EnderecoDAO();
-        
+        EnderecoDAO enderecoDAO = new EnderecoDAO(); 
         if(enderecoDAO.inserirEndereco(c.getEndereco()) == false){
             this.erro = "Erro ao salvar endereço: " + enderecoDAO.getErro();
             return false;

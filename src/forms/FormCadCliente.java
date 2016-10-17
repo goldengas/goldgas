@@ -515,6 +515,7 @@ public class FormCadCliente extends javax.swing.JFrame {
         else
         {
             ClienteJuridico cj = new ClienteJuridico();
+            cj.setCliente(c);
             cj.setCnpj(cpf);
             inserirCliente = this.clienteJuridicoDAO.inserirClienteJuridico(cj);
             erro = this.clienteJuridicoDAO.getErro();

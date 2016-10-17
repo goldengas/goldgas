@@ -6,10 +6,8 @@
 package dao;
 
 import beans.Endereco;
-import beans.Funcionario;
 import goldgasagua.Conexao;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -55,6 +53,7 @@ public class EnderecoDAO {
             if(rs.next()){
                 this.lastId = rs.getInt(1);
             }
+            
             return true;
         }
         catch(Exception ex)

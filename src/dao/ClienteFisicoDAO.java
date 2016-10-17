@@ -6,7 +6,6 @@
 package dao;
 
 
-import beans.Cliente;
 import beans.ClienteFisico;
 import goldgasagua.Conexao;
 import java.sql.Connection;
