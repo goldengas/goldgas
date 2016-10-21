@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/J:/goldgas/src/forms/FormCadPedidos.java</file>
-            <file>file:/J:/goldgas/src/forms/FormBuscarFornecedor.java</file>
-            <file>file:/J:/goldgas/src/forms/FormBuscarCliente.java</file>
-            <file>file:/J:/goldgas/src/forms/FormCadCliente.java</file>
+            <file>file:/E:/goldgas/src/forms/FormCadPedido.java</file>
+            <file>file:/E:/goldgas/src/forms/FormPrincipalGerente.java</file>
         </group>
     </open-files>
 </project-private>
