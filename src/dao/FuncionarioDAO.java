@@ -5,6 +5,8 @@
  */
 package dao;
 
+import beans.Endereco;
+import beans.Fornecedor;
 import beans.Funcionario;
 import goldgasagua.Conexao;
 import java.sql.Connection;
@@ -81,7 +83,7 @@ public class FuncionarioDAO {
     
     public List<Funcionario> getFuncionario(String nome)
     {
-        String consultar = "SELECT * FROM funcionario WHERE nome LIKE ?";
+        String consultar = "SELECT * FROM funcionario INNER JOIN endereco ON funcionario.idfuncionario = endereco.idendereco && funcionario.nome LIKE ?";
         try
         {
             PreparedStatement stmte = this.con.prepareStatement(consultar);
@@ -92,9 +94,28 @@ public class FuncionarioDAO {
             while(rs.next())
             {
                 Funcionario f = new Funcionario();
+                Endereco end = new Endereco();
                 //pegar todos os campos
                 f.setIdfuncionario(rs.getInt("idfuncionario"));
                 f.setNome(rs.getString("nome"));
+                f.setRg(rs.getString("rg"));
+                f.setNascimento(rs.getDate("datanascimento"));
+                f.setCnh(rs.getString("cnh"));
+                f.setLogin(rs.getString("login"));
+                f.setSenha(rs.getString("senha"));
+                f.setCpf(rs.getString("cpf"));
+                f.setCargo(rs.getString("cargo"));
+                f.setTelefone(rs.getString("telefone"));
+                f.setEmail(rs.getString("email"));
+                end.setIdEndereco(rs.getInt("idendereco"));
+                end.setRua(rs.getString("rua"));
+                end.setNum(rs.getInt("num"));
+                end.setBairro(rs.getString("bairro"));
+                end.setReferencia(rs.getString("referencia"));
+                end.setComplemento(rs.getString("complemento"));
+                end.setCidade(rs.getString("cidade"));
+                end.setEstado(rs.getString("estado"));
+                f.setEndereco(end);
                 listaFuncionarios.add(f);
             }
             return listaFuncionarios;
@@ -143,6 +164,89 @@ public class FuncionarioDAO {
         {
             this.erro = "Erro ao inserir " + e.getMessage();
             return null;
+        }
+    }
+    
+    public Funcionario getFuncionarioById(int idfuncionario)
+    {
+        String consultar = "SELECT * FROM funcionario f INNER JOIN endereco e ON f.idendereco = e.idendereco WHERE f.idfuncionario = ?";
+        
+        
+        try
+        {
+            PreparedStatement stmte = this.con.prepareStatement(consultar);
+            stmte.setInt(1, idfuncionario);
+            ResultSet rs = stmte.executeQuery();
+            rs.first();
+            
+            Funcionario f = new Funcionario();
+            Endereco end = new Endereco();
+            f.setIdfuncionario(rs.getInt("idfuncionario"));
+            f.setNome(rs.getString("nome"));
+            f.setRg(rs.getString("rg"));
+            f.setNascimento(rs.getDate("datanascimento"));
+            f.setCnh(rs.getString("cnh"));
+            f.setLogin(rs.getString("login"));
+            f.setSenha(rs.getString("senha"));
+            f.setCpf(rs.getString("cpf"));
+            f.setCargo(rs.getString("cargo"));
+            end.setIdEndereco(rs.getInt("idendereco"));
+            f.setTelefone(rs.getString("telefone"));
+            f.setEmail(rs.getString("email"));
+            end.setRua(rs.getString("rua"));
+            end.setNum(rs.getInt("num"));
+            end.setBairro(rs.getString("bairro"));
+            end.setReferencia(rs.getString("referencia"));
+            end.setComplemento(rs.getString("complemento"));
+            end.setCidade(rs.getString("cidade"));
+            end.setEstado(rs.getString("estado"));
+            f.setEndereco(end);
+            
+            System.out.println(f.getIdfuncionario());
+            return f;
+        }
+        catch(Exception e)
+        {
+            this.erro = "Erro ao inserir " + e.getMessage();
+            return null;
+        }
+    }
+    
+    
+    public boolean atualizaFuncionario(Funcionario f)
+    {
+        EnderecoDAO enderecoDAO = new EnderecoDAO(); 
+        if(enderecoDAO.atualizaEndereco(f.getEndereco()) == false){
+            this.erro = "Erro ao atualizar endereço: " + enderecoDAO.getErro();
+            return false;
+        }
+        
+       // f.getEndereco().setIdEndereco(enderecoDAO.getLastId());
+        
+        String update = "UPDATE funcionario SET nome=?, rg=?, datanascimento=?, cnh=?, login=?, senha=?, cpf=?, cargo=?,  email=?, telefone=?  WHERE idfuncionario = ?";
+        try
+        {
+        PreparedStatement stmte = con.prepareStatement(update);
+            
+            stmte.setString(1, f.getNome());
+            stmte.setString(2, f.getRg());
+            stmte.setDate(3, (Date) f.getNascimento());
+            stmte.setString(4, f.getCnh());
+            stmte.setString(5, f.getLogin());
+            stmte.setString(6, f.getSenha());  
+            stmte.setString(7, f.getCpf());
+            stmte.setString(8, f.getCargo());
+            stmte.setString(9, f.getEmail());
+            stmte.setString(10, f.getTelefone());
+            stmte.setInt(11, f.getIdfuncionario());
+            
+            stmte.execute();
+            return true;
+        }
+        catch(Exception e)
+        {
+            this.erro = "Erro ao atualizar: " +e.getMessage();
+            return false;
         }
     }
     

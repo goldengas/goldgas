@@ -5,8 +5,7 @@
  */
 package forms;
 
-import beans.Fornecedor;
-import dao.FornecedorDAO;
+import beans.Funcionario;
 import dao.FuncionarioDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -16,41 +15,46 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author IFSP
  */
-public class FormBuscarFornecedor extends javax.swing.JDialog {
-    private FornecedorDAO fornecedorDAO;
-    private FormCadFornecedor fcf; 
-
-    public void setFv(FormCadFornecedor fcf) {
+public class FormBuscarFuncionario extends javax.swing.JDialog {
+    
+    private FuncionarioDAO funcionarioDAO;
+        private FormCadFuncionario fcf;
+        
+    public void setFv(FormCadFuncionario fcf) {
         this.fcf = fcf;
     }
     
-    private void preencheTabela(List<Fornecedor> lista)
+    
+    private void preencheTabela(List<Funcionario> lista)
     {
-        DefaultTableModel tabelaFornecedores = (DefaultTableModel)tblFornecedor.getModel();
-        tabelaFornecedores.setNumRows(0);
+        DefaultTableModel tabelaFuncionarios = (DefaultTableModel)tblFuncionario.getModel();
+        tabelaFuncionarios.setNumRows(0);
         
         if(lista != null){
-            for(Fornecedor f : lista){
+            for(Funcionario f : lista){
                 Object[] obj = new Object[]{
-                    f.getIdfornecedor(),
+                    f.getIdfuncionario(),
                     f.getNome(),
-                    f.getCnpj(),
+                    f.getNascimento(),
+                    f.getRg(),
+                    f.getCpf(),
+                    f.getCargo(),
                     f.getTelefone(),
                     f.getEmail()
                 };
-                tabelaFornecedores.addRow(obj);   
+                tabelaFuncionarios.addRow(obj);   
             }
         }  
     }
-
+    
     /**
-     * Creates new form FormBuscarFornecedor
+     * Creates new form FormBuscarFuncionario
      */
-    public FormBuscarFornecedor(java.awt.Frame parent, boolean modal) {
+    public FormBuscarFuncionario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.fornecedorDAO = new FornecedorDAO();
-        preencheTabela(this.fornecedorDAO.getFornecedor(""));
+        this.funcionarioDAO = new FuncionarioDAO();
+        preencheTabela(this.funcionarioDAO.getFuncionario(""));
     }
 
     /**
@@ -62,23 +66,21 @@ public class FormBuscarFornecedor extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblFornecedor = new javax.swing.JTable();
+        tblFuncionario = new javax.swing.JTable();
         btnConfirmar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        tblFornecedor.setModel(new javax.swing.table.DefaultTableModel(
+        tblFuncionario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Nome", "CNPJ", "Telefone", "Email"
+                "Código", "Nome", "Nascimento", "RG", "CPF", "Cargo", "Telefone", "E-mail"
             }
         ));
-        jScrollPane1.setViewportView(tblFornecedor);
+        jScrollPane1.setViewportView(tblFuncionario);
 
         btnConfirmar.setFont(new java.awt.Font("Tahoma", 0, 22)); // NOI18N
         btnConfirmar.setText("Confirmar");
@@ -88,35 +90,25 @@ public class FormBuscarFornecedor extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setText("Fornecedor");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(266, 266, 266)
-                        .addComponent(jLabel1)
-                        .addGap(0, 309, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnConfirmar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addComponent(btnConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, 967, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jLabel1)
-                .addGap(34, 34, 34)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(145, 145, 145)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(171, Short.MAX_VALUE))
         );
 
         pack();
@@ -124,12 +116,12 @@ public class FormBuscarFornecedor extends javax.swing.JDialog {
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         // TODO add your handling code here:
-        int linhaSelecionada = tblFornecedor.getSelectedRow();
+         int linhaSelecionada = tblFuncionario.getSelectedRow();
         if(linhaSelecionada >= 0){
-            int idfornecedor = Integer.parseInt(tblFornecedor.getValueAt(linhaSelecionada, 0).toString());
-            Fornecedor f = fornecedorDAO.getFornecedorById(idfornecedor);
-            JOptionPane.showMessageDialog(this, f.getIdfornecedor());
-            this.fcf.setFornecedor(f);
+            int idfuncionario = Integer.parseInt(tblFuncionario.getValueAt(linhaSelecionada, 0).toString());
+            Funcionario f = funcionarioDAO.getFuncionarioById(idfuncionario);
+            JOptionPane.showMessageDialog(this, f.getIdfuncionario());
+            this.fcf.setFuncionario(f);
 //            
                     
             this.dispose();
@@ -153,20 +145,20 @@ public class FormBuscarFornecedor extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormBuscarFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormBuscarFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormBuscarFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormBuscarFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormBuscarFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormBuscarFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormBuscarFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormBuscarFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormBuscarFornecedor dialog = new FormBuscarFornecedor(new javax.swing.JFrame(), true);
+                FormBuscarFuncionario dialog = new FormBuscarFuncionario(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -180,9 +172,7 @@ public class FormBuscarFornecedor extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable tblFornecedor;
+    private javax.swing.JTable tblFuncionario;
     // End of variables declaration//GEN-END:variables
 }

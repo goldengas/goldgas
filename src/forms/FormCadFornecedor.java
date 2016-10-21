@@ -22,26 +22,37 @@ public class FormCadFornecedor extends javax.swing.JFrame {
     private FornecedorDAO fornecedorDAO;
     private EnderecoDAO enderecoDAO;
     
-    public void setFornecedores(String nome)
-        {
-            Fornecedor f = new Fornecedor();
-            List<Fornecedor> forn = this.fornecedorDAO.getFornecedor(nome);
-            //pegar o ultimo item da lista
-            f = forn.get(forn.size()-1);
-            txtNome.setText(f.getNome());
-            txtCpnj.setText(f.getCnpj());
-            txtTelefone.setText(f.getTelefone());
-            txtEmail.setText(f.getEmail());
-            
-        }
-    public void limparCampos()
+    public void setFornecedor(Fornecedor f)
     {
+        btnSalvar.setEnabled(false);
+        btnAtualizar.setEnabled(true);
+        
+        txtIdFornecedor.setText(String.valueOf(f.getIdfornecedor()));
+        txtNome.setText(f.getNome());
+        txtCpnj.setText(f.getCnpj());
+        txtTelefone.setText(f.getTelefone());
+        txtEmail.setText(f.getEmail());
+        
+        txtRua.setText(f.getEndereco().getRua());
+        txtBairro.setText(f.getEndereco().getBairro());
+        txtCit.setText(f.getEndereco().getCidade());
+        txtComp.setText(f.getEndereco().getComplemento());
+        txtRef.setText(f.getEndereco().getReferencia());
+        txtNum.setText(String.valueOf(f.getEndereco().getNum()));
+        cmbEstado.setSelectedItem(f.getEndereco().getEstado());
+    }
+    private void limparCampos()
+    {
+        btnSalvar.setEnabled(true);
+        btnAtualizar.setEnabled(false);
         cmbEstado.setSelectedItem("--");
+        txtIdFornecedor.setText("");
         txtRua.setText("");
         txtComp.setText("");
         txtRef.setText("");
         txtNum.setText("");
         txtBairro.setText("");
+        txtCit.setText("");
         txtCpnj.setText("");
         txtNome.setText("");
         txtEmail.setText("");
@@ -55,6 +66,7 @@ public class FormCadFornecedor extends javax.swing.JFrame {
         this.enderecoDAO = new EnderecoDAO();
         
         this.fornecedorDAO = new FornecedorDAO();
+        limparCampos();
     }
 
     /**
@@ -82,6 +94,8 @@ public class FormCadFornecedor extends javax.swing.JFrame {
         txtNome = new javax.swing.JTextField();
         txtTelefone = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtIdFornecedor = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         txtRua = new javax.swing.JTextField();
@@ -100,7 +114,7 @@ public class FormCadFornecedor extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         btnNome = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
-        btnInativar = new javax.swing.JButton();
+        btnAtualizar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         btnPesquisar = new javax.swing.JButton();
 
@@ -144,32 +158,49 @@ public class FormCadFornecedor extends javax.swing.JFrame {
 
         txtEmail.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
+        jLabel9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel9.setText("Código:");
+
+        txtIdFornecedor.setEditable(false);
+        txtIdFornecedor.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtIdFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(349, 349, 349))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCpnj, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel10)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCpnj, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(124, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtIdFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtCpnj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -185,7 +216,7 @@ public class FormCadFornecedor extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addGap(26, 26, 26))
         );
 
         jTabbedPane1.addTab("Dados Gerais", jPanel3);
@@ -321,7 +352,7 @@ public class FormCadFornecedor extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Ações"));
@@ -342,11 +373,11 @@ public class FormCadFornecedor extends javax.swing.JFrame {
             }
         });
 
-        btnInativar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnInativar.setText("Inativar");
-        btnInativar.addActionListener(new java.awt.event.ActionListener() {
+        btnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnAtualizar.setText("Atualizar");
+        btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInativarActionPerformed(evt);
+                btnAtualizarActionPerformed(evt);
             }
         });
 
@@ -378,7 +409,7 @@ public class FormCadFornecedor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnInativar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -391,7 +422,7 @@ public class FormCadFornecedor extends javax.swing.JFrame {
                     .addComponent(btnPesquisar)
                     .addComponent(btnNome)
                     .addComponent(btnSalvar)
-                    .addComponent(btnInativar)
+                    .addComponent(btnAtualizar)
                     .addComponent(btnSair))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -453,6 +484,7 @@ public class FormCadFornecedor extends javax.swing.JFrame {
         e.setBairro(bairro);
         e.setCidade(cidade);
         e.setEstado(estado);
+        e.setNum(num);
         
         Fornecedor f = new Fornecedor();
         f.setCnpj(cnpj);
@@ -498,8 +530,10 @@ public class FormCadFornecedor extends javax.swing.JFrame {
         limparCampos();
     }//GEN-LAST:event_btnNomeActionPerformed
 
-    private void btnInativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInativarActionPerformed
+    private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
         // TODO add your handling code here:
+        Fornecedor f = fornecedorDAO.getFornecedorById(Integer.parseInt(txtIdFornecedor.getText()));
+        
         String rua = txtRua.getText();
         String complemento = txtComp.getText();
         String ref = txtRef.getText();
@@ -513,46 +547,40 @@ public class FormCadFornecedor extends javax.swing.JFrame {
         String email = txtEmail.getText();
         String telefone = txtTelefone.getText();
         
-        Endereco e = new Endereco();        
-        e.setRua(rua);
-        e.setComplemento(complemento);
-        e.setNum(num);
-        e.setReferencia(ref);
-        e.setBairro(bairro);
-        e.setCidade(cidade);
-        e.setEstado(estado);
+        f.getEndereco().setRua(rua);
+        f.getEndereco().setComplemento(complemento);
+        f.getEndereco().setNum(num);
+        f.getEndereco().setReferencia(ref);
+        f.getEndereco().setBairro(bairro);
+        f.getEndereco().setCidade(cidade);
+        f.getEndereco().setEstado(estado);
         
-        Fornecedor f = new Fornecedor();
         f.setCnpj(cnpj);
         f.setNome(nome);
         f.setTelefone(telefone);
         f.setEmail(email);
-        f.setEndereco(e);
         
         
-        if(this.enderecoDAO.atualizaEndereco(e) == true)
+        boolean atualizaFornecedor = false;
+        String erro = "";
+        atualizaFornecedor = this.fornecedorDAO.atualizaFornecedor(f);
+        erro = this.fornecedorDAO.getErro();
+        
+        if(atualizaFornecedor == true)
         {
-            JOptionPane.showMessageDialog(this,"Endereco atualizado com sucesso");
+            JOptionPane.showMessageDialog(this, "Fornecedor atualizado com sucesso");
+            
             limparCampos();
         }
         else
         {
-            JOptionPane.showMessageDialog(this,this.fornecedorDAO.getErro());
-        } 
-        
-        if(this.fornecedorDAO.atualizaFornecedor(f) == true)
-        {
-            JOptionPane.showMessageDialog(this,"Produto atualizado com sucesso");
-            limparCampos();
+            JOptionPane.showMessageDialog(this, erro);
         }
-        else
-        {
-            JOptionPane.showMessageDialog(this,this.fornecedorDAO.getErro());
-        }
-    }//GEN-LAST:event_btnInativarActionPerformed
+    }//GEN-LAST:event_btnAtualizarActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
     /**
@@ -594,7 +622,7 @@ public class FormCadFornecedor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnInativar;
+    private javax.swing.JButton btnAtualizar;
     private javax.swing.JButton btnNome;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSair;
@@ -615,6 +643,7 @@ public class FormCadFornecedor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -626,6 +655,7 @@ public class FormCadFornecedor extends javax.swing.JFrame {
     private javax.swing.JTextField txtComp;
     private javax.swing.JTextField txtCpnj;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtIdFornecedor;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtNum;
     private javax.swing.JTextField txtRef;

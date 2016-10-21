@@ -6,47 +6,50 @@
 package forms;
 
 import beans.Produto;
+import dao.PedidoDAO;
 import dao.ProdutoDAO;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author IFSP
  */
-public class FormBuscarProdutos extends javax.swing.JDialog {
-    
+public class FormBuscarProdutoPedido extends javax.swing.JDialog {
+    private PedidoDAO pedidoDAO;
     private ProdutoDAO produtoDAO;
-    private FormCadProduto fcp;
-
-    public void setFv(FormCadProduto fcp) {
-        this.fcp = fcp;
+    private FormCadPedido fp;
+    /**
+     * Creates new form FormBuscarProdutoPedido
+     */
+    public void setFbp(FormCadPedido fp) {
+        this.fp = fp;
+        
     }
-    
     private void preencheTabela(List<Produto> lista)
     {
-        DefaultTableModel tabelaProdutos = (DefaultTableModel)tblProdutos.getModel();
-        tabelaProdutos.setNumRows(0);
+        DefaultTableModel tabelaProdutosPedidos = (DefaultTableModel)tblProdutos.getModel();
+        tabelaProdutosPedidos.setNumRows(0);
         
         if(lista != null){
             for(Produto p : lista){
                 Object[] obj = new Object[]{
+                    p.getIdproduto(),
                     p.getNome(),
                     p.getQuant_min(),
                     p.getPrecounitario(),
                     p.getStatus()
                 };
-                tabelaProdutos.addRow(obj);
+                tabelaProdutosPedidos.addRow(obj);
             }
         }
     }
-
-    /**
-     * Creates new form FormBuscarProdutos
-     */
-    public FormBuscarProdutos(java.awt.Frame parent, boolean modal) {
+    
+    public FormBuscarProdutoPedido(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.pedidoDAO = new PedidoDAO();
         this.produtoDAO = new ProdutoDAO();
         preencheTabela(this.produtoDAO.getProduto(""));
     }
@@ -64,7 +67,9 @@ public class FormBuscarProdutos extends javax.swing.JDialog {
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProdutos = new javax.swing.JTable();
-        btnConfirmar = new javax.swing.JButton();
+        btnConfirmar2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        sQuant = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,18 +81,23 @@ public class FormBuscarProdutos extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Nome", "Quant. Min", "Preco Unit.", "Status"
+                "Código", "Nome", "Quant. Min", "Preco Unit.", "Status"
             }
         ));
         jScrollPane1.setViewportView(tblProdutos);
 
-        btnConfirmar.setFont(new java.awt.Font("Tahoma", 0, 22)); // NOI18N
-        btnConfirmar.setText("Confirmar");
-        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+        btnConfirmar2.setFont(new java.awt.Font("Tahoma", 0, 22)); // NOI18N
+        btnConfirmar2.setText("Confirmar");
+        btnConfirmar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConfirmarActionPerformed(evt);
+                btnConfirmar2ActionPerformed(evt);
             }
         });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("Quantidade:");
+
+        sQuant.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,13 +108,19 @@ public class FormBuscarProdutos extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnConfirmar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(48, 48, 48)
                         .addComponent(jLabel1)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sQuant, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,26 +131,43 @@ public class FormBuscarProdutos extends javax.swing.JDialog {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(sQuant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnConfirmar2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+    private void btnConfirmar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmar2ActionPerformed
         // TODO add your handling code here:
         int linhaSelecionada = tblProdutos.getSelectedRow();
         if(linhaSelecionada >= 0){
-            String nome = tblProdutos.getValueAt(linhaSelecionada, 0).toString();
-            String quantMin = tblProdutos.getValueAt(linhaSelecionada, 1).toString();
-            String precoU = tblProdutos.getValueAt(linhaSelecionada, 2).toString(); 
-            String status = tblProdutos.getValueAt(linhaSelecionada, 3).toString();
-            this.fcp.setProdutos(nome, quantMin, precoU, status);
-            this.dispose();
+            int codigo = Integer.parseInt(tblProdutos.getValueAt(linhaSelecionada, 0).toString());
+            String nome = tblProdutos.getValueAt(linhaSelecionada, 1).toString();
+            double precoU = Double.parseDouble(tblProdutos.getValueAt(linhaSelecionada, 3).toString());
+            String status = tblProdutos.getValueAt(linhaSelecionada, 4).toString();
+            
+            Produto p = new Produto();
+            p.setIdproduto(codigo);
+            p.setNome(nome);
+            p.setPrecounitario(precoU);
+            p.setStatus(status);
+            int quantidade = Integer.parseInt(sQuant.getValue().toString());
+            if(quantidade < 1){
+                JOptionPane.showMessageDialog(this, "Quantidade não pode ser 0");
+            }
+            else{
+                this.fp.setProdutos(p, quantidade);
+                this.dispose();
+            }
+            
         }
-    }//GEN-LAST:event_btnConfirmarActionPerformed
+    }//GEN-LAST:event_btnConfirmar2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,20 +186,20 @@ public class FormBuscarProdutos extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormBuscarProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormBuscarProdutoPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormBuscarProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormBuscarProdutoPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormBuscarProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormBuscarProdutoPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormBuscarProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormBuscarProdutoPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormBuscarProdutos dialog = new FormBuscarProdutos(new javax.swing.JFrame(), true);
+                FormBuscarProdutoPedido dialog = new FormBuscarProdutoPedido(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -179,10 +212,12 @@ public class FormBuscarProdutos extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnConfirmar;
+    private javax.swing.JButton btnConfirmar2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSpinner sQuant;
     private javax.swing.JTable tblProdutos;
     // End of variables declaration//GEN-END:variables
 }

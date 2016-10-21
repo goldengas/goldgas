@@ -6,6 +6,7 @@
 package dao;
 
 
+import beans.Endereco;
 import beans.Fornecedor;
 import goldgasagua.Conexao;
 import java.sql.Connection;
@@ -66,45 +67,106 @@ public class FornecedorDAO {
     }
     
     
+    public Fornecedor getFornecedorById(int idfornecedor)
+    {
+        String consultar = "SELECT * FROM fornecedor f INNER JOIN endereco e ON f.idendereco = e.idendereco WHERE f.idfornecedor = ?";
+        
+        try
+        {
+            PreparedStatement stmte = this.con.prepareStatement(consultar);
+            stmte.setInt(1, idfornecedor);
+            ResultSet rs = stmte.executeQuery();
+            rs.first();
+            
+            Fornecedor f = new Fornecedor();
+            Endereco end = new Endereco();
+            f.setIdfornecedor(rs.getInt("idfornecedor"));
+            f.setNome(rs.getString("nome"));
+            f.setCnpj(rs.getString("cnpj"));
+            f.setEmail(rs.getString("email"));
+            f.setTelefone(rs.getString("telefone"));
+            end.setIdEndereco(rs.getInt("idendereco"));
+            end.setRua(rs.getString("rua"));
+            end.setNum(rs.getInt("num"));
+            end.setBairro(rs.getString("bairro"));
+            end.setReferencia(rs.getString("referencia"));
+            end.setComplemento(rs.getString("complemento"));
+            end.setCidade(rs.getString("cidade"));
+            end.setEstado(rs.getString("estado"));
+            f.setEndereco(end);
+            
+            return f;
+            
+        }
+        catch(Exception e)
+        {
+            this.erro = "Erro ao buscar Fornecedor " + e.getMessage();
+            return null;
+        }
+    }
     public List<Fornecedor> getFornecedor(String nome)
     {
-        String consultar = "SELECT * FROM fornecedor WHERE nome LIKE ?";
+  
+        String consultar = "SELECT * FROM fornecedor INNER JOIN endereco ON fornecedor.idendereco = endereco.idendereco && fornecedor.nome LIKE ?";
         try
         {
             PreparedStatement stmte = this.con.prepareStatement(consultar);
             stmte.setString(1, "%"+nome+"%");
             ResultSet rs = stmte.executeQuery();
-            List<Fornecedor> listaFornecedores = new ArrayList();
+            List<Fornecedor> listaFornecedor = new ArrayList();
+            
             
             while(rs.next())
             {
                 Fornecedor f = new Fornecedor();
+                Endereco end = new Endereco();
                 f.setIdfornecedor(rs.getInt("idfornecedor"));
                 f.setNome(rs.getString("nome"));
                 f.setCnpj(rs.getString("cnpj"));
                 f.setEmail(rs.getString("email"));
                 f.setTelefone(rs.getString("telefone"));
-                f.getEndereco().setIdEndereco(rs.getInt("idendereco"));
-                listaFornecedores.add(f);
+                end.setIdEndereco(rs.getInt("idendereco"));
+                end.setRua(rs.getString("rua"));
+                end.setNum(rs.getInt("num"));
+                end.setBairro(rs.getString("bairro"));
+                end.setReferencia(rs.getString("referencia"));
+                end.setComplemento(rs.getString("complemento"));
+                end.setCidade(rs.getString("cidade"));
+                end.setEstado(rs.getString("estado"));
+                f.setEndereco(end);
+                
+                listaFornecedor.add(f);
             }
-            return listaFornecedores;
+            return listaFornecedor;
         }
         catch(Exception e)
         {
-            this.erro = "Erro ao obter Fornecedor" + e.getMessage();
+            this.erro = "Erro ao inserir " + e.getMessage();
             return null;
         }
     }
-        public boolean atualizaFornecedor(Fornecedor f)
+    
+    
+    
+    public boolean atualizaFornecedor(Fornecedor f)
     {
-        String update = "UPDATE fornecedor SET nome=?, cnpj=?, email=?, telefone=? WHERE idcliente = ?";
+        EnderecoDAO enderecoDAO = new EnderecoDAO(); 
+        if(enderecoDAO.atualizaEndereco(f.getEndereco()) == false){
+            this.erro = "Erro ao atualizar endereço: " + enderecoDAO.getErro();
+            return false;
+        }
+        
+       // f.getEndereco().setIdEndereco(enderecoDAO.getLastId());
+        
+        String update = "UPDATE fornecedor SET cnpj=?, email=?, telefone=? WHERE nome = ?";
         try
         {
         PreparedStatement stmte = con.prepareStatement(update);
-            stmte.setString(1, f.getNome());
-            stmte.setString(2, f.getCnpj());
-            stmte.setString(3, f.getEmail());
-            stmte.setString(4, f.getTelefone());
+            
+            stmte.setString(1, f.getCnpj());
+            stmte.setString(2, f.getEmail());
+            stmte.setString(3, f.getTelefone());
+            stmte.setString(4, f.getNome());
             stmte.execute();
             return true;
         }

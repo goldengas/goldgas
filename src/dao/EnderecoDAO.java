@@ -38,16 +38,17 @@ public class EnderecoDAO {
     
     public boolean inserirEndereco(Endereco e)
     {
-        String inserir = "INSERT INTO endereco(rua, bairro, referencia, complemento, cidade, estado) VALUES(?, ?, ?, ?, ?, ?)";
+        String inserir = "INSERT INTO endereco(rua,num, bairro, referencia, complemento, cidade, estado) VALUES(?,?, ?, ?, ?, ?, ?)";
         try
         {
             PreparedStatement stmte = this.con.prepareStatement(inserir, Statement.RETURN_GENERATED_KEYS);
             stmte.setString(1, e.getRua());
-            stmte.setString(2, e.getBairro());
-            stmte.setString(3, e.getReferencia());
-            stmte.setString(4, e.getComplemento());
-            stmte.setString(5, e.getCidade());          
-            stmte.setString(6, e.getEstado());
+            stmte.setInt(2, e.getNum());
+            stmte.setString(3, e.getBairro());
+            stmte.setString(4, e.getReferencia());
+            stmte.setString(5, e.getComplemento());
+            stmte.setString(6, e.getCidade());          
+            stmte.setString(7, e.getEstado());
             stmte.executeUpdate();
             ResultSet rs = stmte.getGeneratedKeys();
             if(rs.next()){
@@ -63,13 +64,13 @@ public class EnderecoDAO {
         }
     }
     
-    public List<Endereco> getEndereco(String rua)
+    public List<Endereco> getEndereco(int idendereco)
     {
-        String consultar = "SELECT * FROM endereco WHERE rua LIKE ?";
+        String consultar = "SELECT * FROM endereco WHERE idendereco LIKE ?";
         try
         {
             PreparedStatement stmte = this.con.prepareStatement(consultar);
-            stmte.setString(1, "%"+rua+"%");
+            stmte.setString(1, "%"+idendereco+"%");
             ResultSet rs = stmte.executeQuery();
             List<Endereco> listaEnderecos = new ArrayList();
             
@@ -78,6 +79,7 @@ public class EnderecoDAO {
                 Endereco e = new Endereco();
                 e.setIdEndereco(rs.getInt("idendereco"));
                 e.setRua(rs.getString("rua"));
+                e.setNum(rs.getInt("num"));
                 e.setBairro(rs.getString("bairro"));
                 e.setReferencia(rs.getString("referencia"));                
                 e.setComplemento(rs.getString("complemento"));
@@ -96,7 +98,7 @@ public class EnderecoDAO {
     
     public boolean atualizaEndereco(Endereco end)
     {
-        String update = "UPDATE fornecedor SET rua=?, num,=? bairro=?, referencia=?, complemento=?, cidade=?, estado=? WHERE idendereco = ?";
+        String update = "UPDATE endereco SET rua=?, num=?, bairro=?, referencia=?, complemento=?, cidade=?, estado=? WHERE idendereco = ?";
         try
         {
         PreparedStatement stmte = con.prepareStatement(update);
@@ -106,8 +108,10 @@ public class EnderecoDAO {
             stmte.setString(4, end.getReferencia());
             stmte.setString(5, end.getComplemento());
             stmte.setString(6, end.getCidade());
-            stmte.setString(4, end.getEstado());
+            stmte.setString(7, end.getEstado());
+            stmte.setInt(8, end.getIdEndereco());
             stmte.execute();
+            
             return true;
         }
         catch(Exception e)

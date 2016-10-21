@@ -5,11 +5,13 @@
  */
 package beans;
 
+import interfaces.ICliente;
+
 /**
  *
  * @author IFSP
  */
-public class ClienteJuridico {    
+public class ClienteJuridico  implements ICliente{    
     private Cliente cliente;
     private int idcliente;
     private String cnpj;
@@ -38,5 +40,8 @@ public class ClienteJuridico {
         this.cnpj = cnpj;
     }
     
-    
+     public String getCadastro()
+    {
+        return this.cnpj;
+    }
 }

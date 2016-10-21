@@ -17,12 +17,12 @@ public class FormCadProduto extends javax.swing.JFrame {
 
         private ProdutoDAO produtoDAO;
         
-        public void setProdutos(String nome, String quantMin, String precoU, String quantEst, String status)
+        public void setProdutos(String nome, String quantMin, String precoU,  String status)
         {
             txtNome.setText(nome);
             txtQuantMin.setText(quantMin);
             txtPrecoU.setText(precoU);
-            txtQuantEst.setText(quantEst);
+            
             cmbStatus.setSelectedItem(status);
         }
         
@@ -31,7 +31,7 @@ public class FormCadProduto extends javax.swing.JFrame {
         txtNome.setText("");
         txtQuantMin.setText("");
         txtPrecoU.setText("");
-        txtQuantEst.setText("");
+        
         
         }
     /**
@@ -62,11 +62,9 @@ public class FormCadProduto extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         txtQuantMin = new javax.swing.JTextField();
         txtPrecoU = new javax.swing.JTextField();
-        txtQuantEst = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         cmbStatus = new javax.swing.JComboBox<>();
 
@@ -158,16 +156,11 @@ public class FormCadProduto extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel6.setText("Preco por unidade:");
 
-        jLabel8.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel8.setText("Quant. no estoque:");
-
         txtNome.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
 
         txtQuantMin.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
 
         txtPrecoU.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
-
-        txtQuantEst.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         jLabel3.setText("Status:");
@@ -184,13 +177,11 @@ public class FormCadProduto extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel8)
                             .addComponent(jLabel6)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtPrecoU)
-                            .addComponent(txtQuantEst, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPrecoU, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -217,15 +208,11 @@ public class FormCadProduto extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrecoU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtQuantEst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(43, 43, 43)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(cmbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -265,6 +252,7 @@ public class FormCadProduto extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -273,14 +261,14 @@ public class FormCadProduto extends javax.swing.JFrame {
         String nome = txtNome.getText();
         int quantMin = Integer.parseInt(txtQuantMin.getText());
         double valorU = Double.parseDouble(txtPrecoU.getText());
-        int quantEst = Integer.parseInt(txtQuantEst.getText());
+        
         String status = cmbStatus.getSelectedItem().toString();
         
         Produto p = new Produto();
         p.setNome(nome);
         p.setQuant_min(quantMin);
         p.setPrecounitario(valorU);
-        p.setQuantestoque(quantEst);
+        
         p.setStatus(status);
         
         boolean valida = this.produtoDAO.inserirProduto(p);
@@ -317,7 +305,7 @@ public class FormCadProduto extends javax.swing.JFrame {
         p.setNome(txtNome.getText());
         p.setQuant_min(Integer.parseInt(txtQuantMin.getText()));
         p.setPrecounitario(Double.parseDouble(txtPrecoU.getText()));
-        p.setQuantestoque(Integer.parseInt(txtQuantEst.getText()));
+        
         p.setStatus(cmbStatus.getSelectedItem().toString());
         
         if(this.produtoDAO.atualizaProduto(p) == true)
@@ -380,12 +368,10 @@ public class FormCadProduto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPrecoU;
-    private javax.swing.JTextField txtQuantEst;
     private javax.swing.JTextField txtQuantMin;
     // End of variables declaration//GEN-END:variables
 }

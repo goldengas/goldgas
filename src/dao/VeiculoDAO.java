@@ -85,15 +85,15 @@ public class VeiculoDAO {
     }
     public boolean atualizaVeiculo(Veiculo v)
     {
-        String update = "UPDATE veiculo SET modelo=?, marca=?, tipocombustivel=?, placa=?, status=? WHERE nome = ?";
+        String update = "UPDATE veiculo SET modelo=?, marca=?, tipocombustivel=?, status=? WHERE placa = ?";
         try
         {
         PreparedStatement stmte = con.prepareStatement(update);
             stmte.setString(1, v.getModelo());
             stmte.setString(2, v.getMarca());
             stmte.setString(3, v.getTipocombustivel());
-            stmte.setString(4, v.getPlaca());
-            stmte.setString(5, v.getStatus());
+            stmte.setString(4, v.getStatus());
+            stmte.setString(5, v.getPlaca());
             stmte.execute();
             return true;
         }

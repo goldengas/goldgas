@@ -5,11 +5,13 @@
  */
 package beans;
 
+import interfaces.ICliente;
+
 /**
  *
  * @author IFSP
  */
-public class ClienteFisico {
+public class ClienteFisico implements ICliente {
     private Cliente cliente;
     private int idcliente;
     private String cpf;
@@ -37,5 +39,8 @@ public class ClienteFisico {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-    
+    public String getCadastro()
+    {
+        return this.cpf;
+    }
 }

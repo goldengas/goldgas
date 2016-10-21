@@ -6,8 +6,11 @@
 package dao;
 
 
+import beans.Cliente;
 import beans.ClienteFisico;
+import beans.Endereco;
 import goldgasagua.Conexao;
+import interfaces.ICliente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,7 +57,7 @@ public class ClienteFisicoDAO {
             return false;
         }
     }
-    public List<ClienteFisico> getClienteFisico(String idcliente)
+    public List<ClienteFisico> getClienteFisico(int idcliente)
     {
         String consultar = "SELECT * FROM clientefisico WHERE idcliente LIKE ?";
         try
@@ -76,6 +79,47 @@ public class ClienteFisicoDAO {
         catch(Exception e)
         {
             this.erro = "Erro ao inserir " + e.getMessage();
+            return null;
+        }
+    }
+    public ICliente getClienteFisicoById(int idcliente)
+    {
+        String consultar = "SELECT * FROM cliente c INNER JOIN endereco e ON c.idendereco = e.idendereco INNER JOIN clientefisico cf on c.idcliente = cf.idcliente WHERE c.idcliente = ?";
+        
+        try
+        {
+            PreparedStatement stmte = this.con.prepareStatement(consultar);
+            stmte.setInt(1, idcliente);
+            ResultSet rs = stmte.executeQuery();
+            rs.first();
+            
+            Cliente c = new Cliente();
+            Endereco end = new Endereco();
+            ClienteFisico cf = new ClienteFisico();
+            c.setIdcliente(rs.getInt("idcliente"));
+            c.setNome(rs.getString("nome"));
+            c.setTipocliente(rs.getString("tipocliente"));
+            c.setStatus(rs.getString("status"));
+            
+            c.setEmail(rs.getString("email"));
+            c.setTelefone(rs.getString("telefone"));
+            end.setIdEndereco(rs.getInt("idendereco"));
+            end.setRua(rs.getString("rua"));
+            end.setNum(rs.getInt("num"));
+            end.setBairro(rs.getString("bairro"));
+            end.setReferencia(rs.getString("referencia"));
+            end.setComplemento(rs.getString("complemento"));
+            end.setCidade(rs.getString("cidade"));
+            end.setEstado(rs.getString("estado"));
+            c.setEndereco(end);
+            cf.setCliente(c);
+            cf.setCpf(rs.getString("cpf"));
+            return cf;
+            
+        }
+        catch(Exception e)
+        {
+            this.erro = "Erro ao buscar Cliente " + e.getMessage();
             return null;
         }
     }
