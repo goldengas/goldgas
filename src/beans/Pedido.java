@@ -17,13 +17,20 @@ public class Pedido {
     private int idpedido;
     private String prioridade;
     private String formapagamento;
-    private Date data = new Date();
-    private Date hora = new Date();
+    private String data;
+
     private String status;
     private Cliente cliente;
     private double valor;
     private List<ItensPedido> itens;
 
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
     public List<ItensPedido> getItens() {
         return itens;
     }
@@ -64,21 +71,7 @@ public class Pedido {
         this.formapagamento = formapagamento;
     }
 
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
-    }
-
-    public Date getHora() {
-        return hora;
-    }
-
-    public void setHora(Date hora) {
-        this.hora = hora;
-    }
+   
 
     public String getStatus() {
         return status;

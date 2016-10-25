@@ -32,30 +32,20 @@ public class PedidoDAO {
     }
     public boolean inserirPedido(Pedido p)
     {
-        String inserir = "INSERT INTO pedido( prioridade, formapagamento, data,  idcliente, valorpedido) VALUES( ?, ?,  ?, ?, ?)";
+       
+        String inserir = "INSERT INTO pedido(prioridade, formapagamento, data,  idcliente, valorpedido, status) VALUES( ?, ?,  ?, ?, ?, ?)";
         try
         { 
-            String data = String.valueOf(p.getData());
-            java.sql.Date dtValue = java.sql.Date.valueOf(data);
-            
-         System.out.println("aki");
-            
+             
+           
             PreparedStatement stmte = this.con.prepareStatement(inserir);
            
             stmte.setString(1, p.getPrioridade());
-            
-            stmte.setString(2, p.getFormapagamento());
-            
-            stmte.setDate(3, dtValue);
-            
-           
-            
+            stmte.setString(2, p.getFormapagamento());  
+            stmte.setString(3, p.getData());
             stmte.setInt(4, p.getCliente().getIdcliente());
-            
             stmte.setDouble(5, p.getValor());
-            
-            
-            
+            stmte.setString(6, p.getStatus());
             
             stmte.execute();
             
@@ -94,8 +84,7 @@ public class PedidoDAO {
                 p.setIdpedido(rs.getInt("idpedido"));
                 p.setPrioridade(rs.getString("prioridade"));
                 p.setFormapagamento(rs.getString("formapagamento"));
-                p.setData(rs.getDate("data"));
-                p.setHora(rs.getDate("hora"));
+                p.setData(rs.getString("data"));
                 p.setStatus(rs.getString("status"));
                 p.getCliente().setIdcliente(rs.getInt("idcliente"));
                 listaPedidos.add(p);
@@ -108,22 +97,17 @@ public class PedidoDAO {
             return null;
         }
     }
-     public boolean atualizaPedido(Pedido p)
+    public boolean atualizaPedido(Pedido p)
     {
-        String update = "UPDATE pedido SET prioridade=?, formapagamento=?, data=?, hora=?, status=? WHERE idcliente = ?";
+        String update = "UPDATE pedido SET prioridade=?, formapagamento=?, data=?, status=? WHERE idcliente = ?";
         try
         {
-        String data = String.valueOf(p.getData());
-        java.sql.Date dtValue = java.sql.Date.valueOf(data);
-        String hora = String.valueOf(p.getHora());
-        java.sql.Date hrValue = java.sql.Date.valueOf(hora);
-        
+ 
         PreparedStatement stmte = con.prepareStatement(update);
             stmte.setString(1, p.getPrioridade());
             stmte.setString(2, p.getFormapagamento());
-            stmte.setDate(3, dtValue);
-            stmte.setDate(4, hrValue);
-            stmte.setString(5, p.getStatus());
+            stmte.setString(3, p.getData());
+            stmte.setString(4, p.getStatus());
             stmte.execute();
             return true;
         }
