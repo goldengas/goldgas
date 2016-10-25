@@ -7,6 +7,7 @@ package beans;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -20,6 +21,24 @@ public class Pedido {
     private Date hora = new Date();
     private String status;
     private Cliente cliente;
+    private double valor;
+    private List<ItensPedido> itens;
+
+    public List<ItensPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItensPedido> itens) {
+        this.itens = itens;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
 
     public int getIdpedido() {
         return idpedido;

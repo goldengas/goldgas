@@ -5,6 +5,7 @@
  */
 package dao;
 
+import beans.ItensPedido;
 import beans.Pedido;
 import goldgasagua.Conexao;
 import java.sql.Connection;
@@ -31,24 +32,43 @@ public class PedidoDAO {
     }
     public boolean inserirPedido(Pedido p)
     {
-        String inserir = "INSERT INTO pedido(idpedido, prioridade, formapagamento, data, hora, status, idcliente) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String inserir = "INSERT INTO pedido( prioridade, formapagamento, data,  idcliente, valorpedido) VALUES( ?, ?,  ?, ?, ?)";
         try
         { 
             String data = String.valueOf(p.getData());
             java.sql.Date dtValue = java.sql.Date.valueOf(data);
             
-            String hora = String.valueOf(p.getHora());
-            java.sql.Date hrValue = java.sql.Date.valueOf(hora);
+         System.out.println("aki");
             
             PreparedStatement stmte = this.con.prepareStatement(inserir);
-            stmte.setInt(1, p.getIdpedido());
-            stmte.setString(2, p.getPrioridade());
-            stmte.setString(3, p.getFormapagamento());
-            stmte.setDate(4, dtValue);
-            stmte.setDate(5, hrValue);
-            stmte.setString(6, p.getStatus());
-            stmte.setInt(7, p.getCliente().getIdcliente());
+           
+            stmte.setString(1, p.getPrioridade());
+            
+            stmte.setString(2, p.getFormapagamento());
+            
+            stmte.setDate(3, dtValue);
+            
+           
+            
+            stmte.setInt(4, p.getCliente().getIdcliente());
+            
+            stmte.setDouble(5, p.getValor());
+            
+            
+            
+            
             stmte.execute();
+            
+            
+            
+            ItemPedidoDAO itensDAO = new ItemPedidoDAO();
+            
+            for(ItensPedido i : p.getItens())
+            {
+                itensDAO.inserirItens(i);
+                
+            }
+            
             return true;
         }
         catch(Exception e)

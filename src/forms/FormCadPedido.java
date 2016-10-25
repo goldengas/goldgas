@@ -6,12 +6,15 @@
 package forms;
 
 import beans.Cliente;
+import beans.ItensPedido;
 import beans.Pedido;
 import beans.Produto;
 import dao.PedidoDAO;
 import interfaces.ICliente;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,8 +27,14 @@ public class FormCadPedido extends javax.swing.JFrame {
     /**
      * Creates new form FormCadPedido1
      */
+    
+    private void exibirData()
+    {
+        txtNumero1.setText(new SimpleDateFormat("dd/MM/YYYY hh:mm").format(new Date()));
+    }
     public void setCliente(ICliente c)
     {  
+        txtCod.setText(String.valueOf(c.getCliente().getIdcliente()));
         txtNome.setText(c.getCliente().getNome());
         txtRua.setText(c.getCliente().getEndereco().getRua());
         txtBairro.setText(c.getCliente().getEndereco().getBairro());
@@ -70,6 +79,7 @@ public class FormCadPedido extends javax.swing.JFrame {
         initComponents();
         this.pedidoDAO = new PedidoDAO();
         calcularValorTotal();
+        exibirData();
     }
 
     /**
@@ -104,6 +114,8 @@ public class FormCadPedido extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         txtReferencia = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        txtCod = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblItens = new javax.swing.JTable();
@@ -111,6 +123,8 @@ public class FormCadPedido extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         lblTotal = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txtNumero1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -195,7 +209,7 @@ public class FormCadPedido extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -311,21 +325,30 @@ public class FormCadPedido extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jLabel3.setText("Código");
+
+        txtCod.setEditable(false);
+        txtCod.setFont(new java.awt.Font("Arial Narrow", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -335,10 +358,12 @@ public class FormCadPedido extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7))
+                    .addComponent(jButton7)
+                    .addComponent(jLabel3)
+                    .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Itens do Pedido"));
@@ -378,6 +403,12 @@ public class FormCadPedido extends javax.swing.JFrame {
         lblTotal.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
         lblTotal.setText("0,00");
 
+        jLabel7.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        jLabel7.setText("Data:");
+
+        txtNumero1.setEditable(false);
+        txtNumero1.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -386,15 +417,20 @@ public class FormCadPedido extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnAdicionar)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTotal)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAdicionar)
+                            .addComponent(jButton4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 277, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtNumero1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblTotal)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -407,9 +443,13 @@ public class FormCadPedido extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
+                    .addComponent(jLabel7)
+                    .addComponent(txtNumero1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -447,11 +487,67 @@ public class FormCadPedido extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         // TODO add your handling code here:
-         int numeroLinhas = tblItens.getRowCount();
-        if(numeroLinhas > 0)
+        int numeroLinhas = tblItens.getRowCount();
+        
+        if(txtCod.equals(""))
         {
-            
-        }   
+            JOptionPane.showMessageDialog(this, "Selecione um Cliente.");
+        }
+        else
+        {
+            if(numeroLinhas > 0)
+            {
+                Cliente c = new Cliente();
+                c.setIdcliente(Integer.parseInt(txtCod.getText()));
+                
+                Pedido p = new Pedido();
+                p.setFormapagamento(cmbForma.getSelectedItem().toString());
+                p.setValor(Double.parseDouble(lblTotal.getText()));
+                p.setCliente(c);
+                
+                if(radioLivre.isSelected()==true)
+                {
+                    p.setPrioridade("livre");
+                }
+                if(radioAgenda.isSelected()==true)
+                {
+                    p.setPrioridade("agenda");
+                }
+                if(radioUrgente.isSelected()==true)
+                {
+                    p.setPrioridade("urgente");
+                }
+                
+                List<ItensPedido> listaItensPedido = new ArrayList();
+                for(int i = 0; i < numeroLinhas; i++)
+                {
+                    Produto pro = new Produto();
+                    pro.setIdproduto(Integer.parseInt(tblItens.getValueAt(i, 0).toString()));
+                    ItensPedido itens = new ItensPedido();
+                    
+                    itens.setProduto(pro);
+                    itens.setPedido(p);
+                    itens.setQuantidade(Integer.parseInt(tblItens.getValueAt(i, 3).toString()));
+                    listaItensPedido.add(itens);
+                }
+                p.setItens(listaItensPedido);
+                
+                JOptionPane.showMessageDialog(this, p.getFormapagamento());
+                if(pedidoDAO.inserirPedido(p) ==true)
+                {
+                    JOptionPane.showMessageDialog(this, "Pedido emitido com sucesso");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, "Erro ao realizar pedido: " + pedidoDAO.getErro());
+                   
+                }
+            }  
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Selecione pelo menos um Item.");
+            }
+        }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -559,9 +655,11 @@ public class FormCadPedido extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -573,8 +671,10 @@ public class FormCadPedido extends javax.swing.JFrame {
     private javax.swing.JRadioButton radioUrgente;
     private javax.swing.JTable tblItens;
     private javax.swing.JTextField txtBairro;
+    private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtNumero;
+    private javax.swing.JTextField txtNumero1;
     private javax.swing.JTextField txtReferencia;
     private javax.swing.JTextField txtRua;
     // End of variables declaration//GEN-END:variables

@@ -80,6 +80,35 @@ public class ProdutoDAO {
             return null;
         }
     }
+    public List<Produto> getProdutoByStatus(String nome)
+    {
+        String consultar = "SELECT * FROM produto WHERE nome LIKE ? && status = 'ativo'";
+        try
+        {
+            PreparedStatement stmte = this.con.prepareStatement(consultar);
+            stmte.setString(1, "%"+nome+"%");
+            ResultSet rs = stmte.executeQuery();
+            List<Produto> listaProduto = new ArrayList();
+            
+            while(rs.next())
+            {
+                Produto p = new Produto();
+                p.setIdproduto(rs.getInt("idproduto"));
+                p.setQuant_min(rs.getInt("quant_min"));
+                p.setNome(rs.getString("nome"));
+                p.setPrecounitario(rs.getDouble("precounitario"));
+                p.setQuantestoque(rs.getInt("quantestoque"));
+                p.setStatus(rs.getString("status"));
+                listaProduto.add(p);
+            }
+            return listaProduto;
+        }
+        catch(Exception e)
+        {
+            this.erro = "Erro ao inserir " + e.getMessage();
+            return null;
+        }
+    }
     public boolean atualizaProduto(Produto p)
     {
         String update = "UPDATE produto SET nome=?,quant_min=?, precounitario=?, quantestoque=?, status=? WHERE nome = ?";

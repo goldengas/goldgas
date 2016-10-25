@@ -51,7 +51,7 @@ public class FormBuscarProdutoPedido extends javax.swing.JDialog {
         initComponents();
         this.pedidoDAO = new PedidoDAO();
         this.produtoDAO = new ProdutoDAO();
-        preencheTabela(this.produtoDAO.getProduto(""));
+        preencheTabela(this.produtoDAO.getProdutoByStatus(""));
     }
 
     /**
