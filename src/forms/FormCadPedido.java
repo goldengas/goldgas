@@ -9,6 +9,7 @@ import beans.Cliente;
 import beans.ItensPedido;
 import beans.Pedido;
 import beans.Produto;
+import dao.ItemPedidoDAO;
 import dao.PedidoDAO;
 import interfaces.ICliente;
 import java.text.SimpleDateFormat;
@@ -24,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FormCadPedido extends javax.swing.JFrame {
     private PedidoDAO pedidoDAO = new PedidoDAO();
+    private ItemPedidoDAO itenspedidoDAO = new ItemPedidoDAO();
     /**
      * Creates new form FormCadPedido1
      */
@@ -78,9 +80,11 @@ public class FormCadPedido extends javax.swing.JFrame {
     public FormCadPedido() {
         initComponents();
         this.pedidoDAO = new PedidoDAO();
+        this.itenspedidoDAO = new ItemPedidoDAO();
         calcularValorTotal();
         cmbStatus.setEnabled(false);
         exibirData();
+        
     }
 
     /**
@@ -504,6 +508,7 @@ public class FormCadPedido extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
@@ -520,6 +525,7 @@ public class FormCadPedido extends javax.swing.JFrame {
             {
                 Cliente c = new Cliente();
                 c.setIdcliente(Integer.parseInt(txtCod.getText()));
+                
                 
                 Pedido p = new Pedido();
                 p.setFormapagamento(cmbForma.getSelectedItem().toString());
@@ -555,9 +561,14 @@ public class FormCadPedido extends javax.swing.JFrame {
                 p.setItens(listaItensPedido);
                 p.setStatus(status);
                 
+                
+                   
+                
                 if(pedidoDAO.inserirPedido(p) ==true)
                 {
                     JOptionPane.showMessageDialog(this, "Pedido emitido com sucesso");
+                    pedidoDAO.chamarInserirItens(p);
+                    
                 }
                 else
                 {
