@@ -9,7 +9,8 @@ import beans.Cliente;
 import beans.ItensPedido;
 import beans.Pedido;
 import beans.Produto;
-import dao.ItemPedidoDAO;
+import dao.ClienteDAO;
+
 import dao.PedidoDAO;
 import interfaces.ICliente;
 import java.text.SimpleDateFormat;
@@ -25,11 +26,21 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FormCadPedido extends javax.swing.JFrame {
     private PedidoDAO pedidoDAO = new PedidoDAO();
-    private ItemPedidoDAO itenspedidoDAO = new ItemPedidoDAO();
+    private ClienteDAO clienteDAO = new ClienteDAO();
     /**
      * Creates new form FormCadPedido1
      */
-    
+    public void setfcp(Pedido p)
+    {
+        
+       int idCliente = p.getCliente().getIdcliente();
+       Cliente c = new Cliente();
+       c = clienteDAO.getClienteById(idCliente);
+       ICliente cli = null;
+       cli.setCliente(c);
+       
+       
+    }
     private void exibirData()
     {
         txtData.setText(new SimpleDateFormat("dd/MM/YYYY hh:mm").format(new Date()));
@@ -80,7 +91,7 @@ public class FormCadPedido extends javax.swing.JFrame {
     public FormCadPedido() {
         initComponents();
         this.pedidoDAO = new PedidoDAO();
-        this.itenspedidoDAO = new ItemPedidoDAO();
+        this.clienteDAO = new ClienteDAO();
         calcularValorTotal();
         cmbStatus.setEnabled(false);
         exibirData();

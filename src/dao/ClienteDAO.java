@@ -145,5 +145,43 @@ public class ClienteDAO {
             return false;
         }
     }
+    public Cliente getClienteById(int idcliente)
+    {
+        String consultar = "SELECT * FROM cliente c INNER JOIN endereco e ON c.idendereco = e.idendereco WHERE c.idcliente = ?";
+        
+        
+        try
+        {
+            PreparedStatement stmte = this.con.prepareStatement(consultar);
+            stmte.setInt(1, idcliente);
+            ResultSet rs = stmte.executeQuery();
+            rs.first();
+            
+            Cliente c = new Cliente();
+            Endereco end = new Endereco();
+            c.setNome(rs.getString("nome"));
+            c.setTelefone(rs.getString("telefone"));
+            c.setTipocliente(rs.getString("tipocliente"));
+            c.setEmail(rs.getString("email"));
+            c.setStatus(rs.getString("status"));
+                
+            end.setRua(rs.getString("rua"));
+            end.setNum(rs.getInt("num"));
+            end.setBairro(rs.getString("bairro"));
+            end.setReferencia(rs.getString("referencia"));
+            end.setComplemento(rs.getString("complemento"));
+            end.setCidade(rs.getString("cidade"));
+            end.setEstado(rs.getString("estado"));
+            c.setEndereco(end);
+            
+            
+            return c;
+        }
+        catch(Exception e)
+        {
+            this.erro = "Erro ao inserir " + e.getMessage();
+            return null;
+        }
+    }
 
 }

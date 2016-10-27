@@ -5,9 +5,12 @@
  */
 package dao;
 
+import beans.Cliente;
 import beans.ItensPedido;
 import beans.Pedido;
+import beans.Produto;
 import goldgasagua.Conexao;
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -65,7 +68,51 @@ public class PedidoDAO {
             return false;
         }
     }
-     public List<Pedido> getPedidoTodos()
+    public Pedido getPedidoById(int idpedido)
+    {
+        String consultar = "SELECT * FROM pedido p INNER JOIN itens_pedido i ON p.idpedido = i.idpedido WHERE p.idpedido = ?";
+        
+        
+        try
+        {
+            PreparedStatement stmte = this.con.prepareStatement(consultar);
+            stmte.setInt(1, idpedido);
+            ResultSet rs = stmte.executeQuery();
+            rs.first();
+            
+            Pedido p = new Pedido();
+            ItensPedido i = new ItensPedido();
+            List<ItensPedido> listaitens = new ArrayList();
+            Cliente c = new Cliente();
+            p.setIdpedido(rs.getInt("idpedido"));
+            p.setPrioridade(rs.getString("prioridade"));
+            c.setIdcliente(rs.getInt("idcliente"));
+            p.setCliente(c);
+            p.setFormapagamento(rs.getString("formapagamento"));
+            p.setData(rs.getString("data"));
+            p.setStatus(rs.getString("status"));
+           
+            
+            if(rs.next()){
+                Produto pro = new Produto();
+                pro.setIdproduto(rs.getInt("idproduto"));
+                i.setQuantidade(rs.getInt("quantidade"));
+                i.setProduto(pro);
+                i.setPedido(p);
+               
+                listaitens.add(i);      
+            }
+            p.setItens(listaitens);
+            
+            return p;
+        }
+        catch(Exception e)
+        {
+            this.erro = "Erro ao inserir " + e.getMessage();
+            return null;
+        }
+    }
+    public List<Pedido> getPedidoTodos()
     {
         String consultar = "SELECT * FROM pedido WHERE status != 'ninguem'";
         try
@@ -73,20 +120,18 @@ public class PedidoDAO {
             PreparedStatement stmte = this.con.prepareStatement(consultar);
             ResultSet rs = stmte.executeQuery();
             List<Pedido> listaPedidos = new ArrayList();
-            
+       
             while(rs.next())
             {
-                
                 Pedido p = new Pedido();
-                
+                Cliente c = new Cliente();
                 p.setIdpedido(rs.getInt("idpedido"));
-                
                 p.setPrioridade(rs.getString("prioridade"));
                 p.setFormapagamento(rs.getString("formapagamento"));
                 p.setData(rs.getString("data"));
-                p.setStatus(rs.getString("status"));
-                
-                p.getCliente().setIdcliente(rs.getInt("idcliente"));
+                p.setStatus(rs.getString("status"));  
+                c.setIdcliente(rs.getInt("idcliente"));
+                p.setCliente(c);
                 System.out.println("passou");
                 p.setValor(rs.getDouble("valorpedido"));
                 

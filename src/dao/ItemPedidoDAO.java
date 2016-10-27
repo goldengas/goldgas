@@ -18,7 +18,7 @@ import java.sql.PreparedStatement;
 public class ItemPedidoDAO {
     private Connection con;
     private String erro;
-    private PedidoDAO pedidoDAO;
+    
     public ItemPedidoDAO()
     {
         this.con = Conexao.getConnection();
