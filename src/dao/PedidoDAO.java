@@ -11,6 +11,7 @@ import goldgasagua.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,11 @@ import java.util.List;
 public class PedidoDAO {
     private Connection con;
     private String erro;
+    private int lastId = -1;
     
+    public int getLastId(){
+        return this.lastId;
+    }
     public PedidoDAO()
     {
         this.con = Conexao.getConnection();
@@ -36,8 +41,6 @@ public class PedidoDAO {
         String inserir = "INSERT INTO pedido(prioridade, formapagamento, data,  idcliente, valorpedido, status) VALUES( ?, ?,  ?, ?, ?, ?)";
         try
         { 
-             
-           
             PreparedStatement stmte = this.con.prepareStatement(inserir);
            
             stmte.setString(1, p.getPrioridade());
@@ -46,19 +49,14 @@ public class PedidoDAO {
             stmte.setInt(4, p.getCliente().getIdcliente());
             stmte.setDouble(5, p.getValor());
             stmte.setString(6, p.getStatus());
-            
             stmte.execute();
+           //pegar o ultimo id
+            ResultSet rs = stmte.executeQuery("SELECT MAX(idpedido) AS idpedido FROM pedido");
             
-            
-            
-            ItemPedidoDAO itensDAO = new ItemPedidoDAO();
-            
-            for(ItensPedido i : p.getItens())
-            {
-                itensDAO.inserirItens(i);
+            if(rs.next()){
+                this.lastId = rs.getInt("idpedido");
                 
             }
-            
             return true;
         }
         catch(Exception e)
@@ -117,4 +115,15 @@ public class PedidoDAO {
             return false;
         }
     }
+    
+    public void chamarInserirItens(Pedido p)      
+    {
+        ItemPedidoDAO itensPedidoDAO = new ItemPedidoDAO();
+        
+        for(ItensPedido i : p.getItens())
+        {
+            itensPedidoDAO.inserirItens(i, lastId);
+        }    
+    }
+    
 }

@@ -6,6 +6,7 @@
 package dao;
 
 import beans.ItensPedido;
+import beans.Pedido;
 import goldgasagua.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +18,7 @@ import java.sql.PreparedStatement;
 public class ItemPedidoDAO {
     private Connection con;
     private String erro;
-    
+    private PedidoDAO pedidoDAO;
     public ItemPedidoDAO()
     {
         this.con = Conexao.getConnection();
@@ -26,16 +27,19 @@ public class ItemPedidoDAO {
     {
         return this.erro;
     }
-    public boolean inserirItens(ItensPedido itens)
+    public boolean inserirItens(ItensPedido itens, int lastId)
     {
-        String inserir = "INSERT INTO itens (idProduto, idpedido, quantidade) VALUES(?,?,?)";
+        System.out.println(lastId);
+        
+   
+        String inserir = "INSERT INTO itens_pedido (idpedido, idproduto , quantidade) VALUES (?, ?, ?)";
         try
         { 
             PreparedStatement stmte = this.con.prepareStatement(inserir);
-            stmte.setInt(1, itens.getProduto().getIdproduto());
-            stmte.setInt(2, itens.getPedido().getIdpedido());
+            stmte.setInt(1, lastId);
+            stmte.setInt(2, itens.getProduto().getIdproduto());
             stmte.setInt(3, itens.getQuantidade());
-            stmte.executeQuery();
+            stmte.execute();
             return true;
         }
         catch(Exception e)
