@@ -5,17 +5,45 @@
  */
 package forms;
 
+import beans.Pedido;
+import dao.PedidoDAO;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author IFSP
  */
 public class FormListarPedido extends javax.swing.JFrame {
-
+    private PedidoDAO pedidoDAO;
+    private String abertos = "aberto";
+    private String entrega = "em entrega";
+    private String finalizados = "finalizado";
+    private String cancelados = "cancelado";
     /**
      * Creates new form FormListarPedido
      */
+    private void preencheTabela(List<Pedido> listaPedidos)
+    {
+        
+        DefaultTableModel tabelPedidos  = (DefaultTableModel) tblPedido.getModel();
+        tabelPedidos.setNumRows(0); //Limpa a tabela toda vez que for listar
+        
+        for(Pedido p : listaPedidos){
+            Object[] obj = new Object[]{
+                p.getIdpedido(),
+                p.getCliente().getNome(),
+                p.getPrioridade(),
+                p.getData(),
+                p.getStatus()
+            };
+            tabelPedidos.addRow(obj);
+        }
+    }
     public FormListarPedido() {
         initComponents();
+        this.pedidoDAO = new PedidoDAO();
+        preencheTabela(this.pedidoDAO.getPedidoTodos());
     }
 
     /**
@@ -30,7 +58,17 @@ public class FormListarPedido extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblProdutos = new javax.swing.JTable();
+        tblPedido = new javax.swing.JTable();
+        cbFinalizados = new javax.swing.JCheckBox();
+        cbTodos = new javax.swing.JCheckBox();
+        cbEntrega = new javax.swing.JCheckBox();
+        cbAbertos = new javax.swing.JCheckBox();
+        cbCancelados = new javax.swing.JCheckBox();
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -38,15 +76,15 @@ public class FormListarPedido extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Resultado"));
 
-        tblProdutos.setModel(new javax.swing.table.DefaultTableModel(
+        tblPedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome", "Quuant.Min", "Preço Unit.", "Quant. Estoque"
+                "Código", "Cliente", "Prioridade", "Data", "Status"
             }
         ));
-        jScrollPane1.setViewportView(tblProdutos);
+        jScrollPane1.setViewportView(tblPedido);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -54,42 +92,188 @@ public class FormListarPedido extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        cbFinalizados.setSelected(true);
+        cbFinalizados.setText("Finalizados");
+        cbFinalizados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbFinalizadosActionPerformed(evt);
+            }
+        });
+
+        cbTodos.setSelected(true);
+        cbTodos.setText("Todos");
+        cbTodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTodosActionPerformed(evt);
+            }
+        });
+
+        cbEntrega.setSelected(true);
+        cbEntrega.setText("Em entrega");
+        cbEntrega.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbEntregaActionPerformed(evt);
+            }
+        });
+
+        cbAbertos.setSelected(true);
+        cbAbertos.setText("Abertos");
+        cbAbertos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAbertosActionPerformed(evt);
+            }
+        });
+
+        cbCancelados.setSelected(true);
+        cbCancelados.setText("Cancelados");
+        cbCancelados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCanceladosActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Ações"));
+
+        jButton1.setText("Visualizar");
+
+        jButton2.setText("Alterar Status");
+
+        jButton3.setText("Cancelar");
+
+        jButton4.setText("Finalizar");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(208, 208, 208)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addContainerGap(172, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(311, 311, 311)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cbTodos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbAbertos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbEntrega)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbFinalizados)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbCancelados)
+                .addGap(45, 45, 45))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(306, 306, 306)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbFinalizados)
+                    .addComponent(cbTodos)
+                    .addComponent(cbEntrega)
+                    .addComponent(cbAbertos)
+                    .addComponent(cbCancelados))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTodosActionPerformed
+        // TODO add your handling code here:
+        if(cbTodos.isSelected()==true)
+        {
+            cbAbertos.setSelected(true);
+            cbCancelados.setSelected(true);
+            cbEntrega.setSelected(true);
+            cbFinalizados.setSelected(true);
+        }
+    }//GEN-LAST:event_cbTodosActionPerformed
+
+    private void cbAbertosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAbertosActionPerformed
+        // TODO add your handling code here:
+        if(cbAbertos.isSelected()==false)
+        {
+            cbTodos.setSelected(false); 
+        }
+    }//GEN-LAST:event_cbAbertosActionPerformed
+
+    private void cbEntregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEntregaActionPerformed
+        // TODO add your handling code here:
+        if(cbEntrega.isSelected()==false)
+        {
+            cbTodos.setSelected(false);
+        }
+    }//GEN-LAST:event_cbEntregaActionPerformed
+
+    private void cbFinalizadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFinalizadosActionPerformed
+        // TODO add your handling code here:
+        if(cbFinalizados.isSelected()==false)
+        {
+            cbTodos.setSelected(false);
+            
+        }
+    }//GEN-LAST:event_cbFinalizadosActionPerformed
+
+    private void cbCanceladosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCanceladosActionPerformed
+        // TODO add your handling code here:
+        if(cbCancelados.isSelected()==false)
+        {
+            cbTodos.setSelected(false);
+        }
+    }//GEN-LAST:event_cbCanceladosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,9 +311,19 @@ public class FormListarPedido extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox cbAbertos;
+    private javax.swing.JCheckBox cbCancelados;
+    private javax.swing.JCheckBox cbEntrega;
+    private javax.swing.JCheckBox cbFinalizados;
+    private javax.swing.JCheckBox cbTodos;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblProdutos;
+    private javax.swing.JTable tblPedido;
     // End of variables declaration//GEN-END:variables
 }

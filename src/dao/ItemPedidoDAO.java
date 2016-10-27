@@ -29,9 +29,7 @@ public class ItemPedidoDAO {
     }
     public boolean inserirItens(ItensPedido itens, int lastId)
     {
-        System.out.println(lastId);
-        
-   
+
         String inserir = "INSERT INTO itens_pedido (idpedido, idproduto , quantidade) VALUES (?, ?, ?)";
         try
         { 

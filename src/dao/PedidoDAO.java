@@ -65,33 +65,39 @@ public class PedidoDAO {
             return false;
         }
     }
-     public List<Pedido> getPedido(String idpedido)
+     public List<Pedido> getPedidoTodos()
     {
-        String consultar = "SELECT * FROM pedido WHERE idpedido LIKE ?";
+        String consultar = "SELECT * FROM pedido WHERE status != 'ninguem'";
         try
-        {
-            
+        {  
             PreparedStatement stmte = this.con.prepareStatement(consultar);
-            stmte.setString(1, "%"+idpedido+"%");
             ResultSet rs = stmte.executeQuery();
             List<Pedido> listaPedidos = new ArrayList();
             
             while(rs.next())
             {
+                
                 Pedido p = new Pedido();
+                
                 p.setIdpedido(rs.getInt("idpedido"));
+                
                 p.setPrioridade(rs.getString("prioridade"));
                 p.setFormapagamento(rs.getString("formapagamento"));
                 p.setData(rs.getString("data"));
                 p.setStatus(rs.getString("status"));
+                
                 p.getCliente().setIdcliente(rs.getInt("idcliente"));
+                System.out.println("passou");
+                p.setValor(rs.getDouble("valorpedido"));
+                
                 listaPedidos.add(p);
             }
+            
             return listaPedidos;
         }
         catch(Exception e)
         {
-            this.erro = "Erro ao inserir " + e.getMessage();
+            this.erro = "Erro ao obter pedido " + e.getMessage();
             return null;
         }
     }
@@ -100,8 +106,7 @@ public class PedidoDAO {
         String update = "UPDATE pedido SET prioridade=?, formapagamento=?, data=?, status=? WHERE idcliente = ?";
         try
         {
- 
-        PreparedStatement stmte = con.prepareStatement(update);
+            PreparedStatement stmte = con.prepareStatement(update);
             stmte.setString(1, p.getPrioridade());
             stmte.setString(2, p.getFormapagamento());
             stmte.setString(3, p.getData());
